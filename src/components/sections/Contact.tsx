@@ -288,7 +288,7 @@ export function Contact() {
                         <div className="absolute top-0 inset-x-1.5 sm:inset-x-2 h-[1px] bg-white/20 rounded-full pointer-events-none" />
 
                         {/* Top Monogram Label */}
-                        <span className="text-[9px] sm:text-xs font-mono font-bold tracking-wider sm:tracking-widest text-zinc-500 group-hover/key:text-brand-purple-light group-focus-visible/key:text-brand-purple-light transition-colors">
+                        <span className="text-[9px] sm:text-xs font-mono font-bold tracking-wider sm:tracking-widest text-zinc-500 group-hover/key:text-brand-purple-light group-focus-visible/key:text-brand-purple-light transition-colors notranslate" translate="no">
                           {item.keyLabel}
                         </span>
 

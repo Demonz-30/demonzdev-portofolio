@@ -179,7 +179,8 @@ export function Navigation() {
           </div>
           <span 
             ref={logoTextRef}
-            className="font-bold tracking-widest text-sm hidden md:block text-white transition-all duration-500 ease-out group-hover:text-brand-purple-light group-hover:tracking-[0.16em]"
+            className="font-bold tracking-widest text-sm hidden md:block text-white transition-all duration-500 ease-out group-hover:text-brand-purple-light group-hover:tracking-[0.16em] notranslate"
+            translate="no"
           >
             DEMONZDEV
           </span>

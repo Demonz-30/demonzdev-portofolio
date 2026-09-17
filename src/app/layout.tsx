@@ -20,9 +20,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "DEMONZ | Creative Technologist & Entrepreneur",
   description: "I build digital products, visual identities, multimedia content, and real-world businesses by combining technology, creativity, and entrepreneurial thinking.",
-  other: {
-    google: "notranslate",
-  },
 };
 
 export default function RootLayout({
@@ -33,11 +30,13 @@ export default function RootLayout({
   return (
     <html 
       lang="en" 
-      translate="no" 
-      className={`${geistSans.variable} ${geistMono.variable} notranslate antialiased`} 
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`} 
       suppressHydrationWarning
     >
-      <body className="bg-background text-foreground min-h-screen selection:bg-brand-purple/30 selection:text-white overflow-x-hidden">
+      <body 
+        className="bg-background text-foreground min-h-screen selection:bg-brand-purple/30 selection:text-white overflow-x-hidden"
+        suppressHydrationWarning
+      >
         <SmoothScrollProvider>
           <PageTransitionProvider>
             <CustomCursor />

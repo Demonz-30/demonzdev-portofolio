@@ -20,7 +20,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-12">
           <div className="max-w-sm flex flex-col">
             <div className="flex items-center gap-3">
-              <span className="text-lg font-black tracking-tighter text-white uppercase">
+              <span className="text-lg font-black tracking-tighter text-white uppercase notranslate" translate="no">
                 DEMONZDEV
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-brand-purple-light animate-pulse" />
@@ -90,7 +90,7 @@ export function Footer() {
         </div>
 
         <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-[11px] font-mono text-zinc-500 gap-3">
-          <p>&copy; {currentYear} {content.footer.copyright.toUpperCase()}. ALL RIGHTS RESERVED.</p>
+          <p suppressHydrationWarning>&copy; {currentYear} {content.footer.copyright.toUpperCase()}. ALL RIGHTS RESERVED.</p>
           <p className="text-zinc-400 uppercase tracking-widest">{content.footer.message}</p>
         </div>
       </div>

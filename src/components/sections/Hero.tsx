@@ -183,13 +183,13 @@ export function Hero() {
           </span>
         </div>
         <div className="w-full text-left overflow-hidden">
-          <h1 className="hero-ui-element text-[14vw] md:text-[9.5vw] font-black leading-none tracking-tighter text-white uppercase mb-2 text-left">
+          <h1 className="hero-ui-element text-[14vw] md:text-[9.5vw] font-black leading-none tracking-tighter text-white uppercase mb-2 text-left notranslate" translate="no">
             DEMONZDEV
           </h1>
         </div>
         <div className="w-full text-left overflow-hidden h-7 md:h-8 flex items-center justify-start">
           <h2 className="hero-ui-element text-lg md:text-2xl text-zinc-300 font-medium tracking-wide uppercase whitespace-nowrap inline-flex items-center text-left">
-            <span ref={roleTextRef} className="inline-block">
+            <span ref={roleTextRef} className="inline-block notranslate" translate="no" suppressHydrationWarning>
               {ROTATING_ROLES[0]}
             </span>
             <span
