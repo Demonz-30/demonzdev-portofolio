@@ -33,7 +33,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-row gap-12 sm:gap-20">
+          <div className="flex flex-row gap-8 sm:gap-16 md:gap-20">
             <div>
               <span className="text-[10px] font-mono tracking-widest text-brand-purple-light uppercase mb-3 block">
                 NAVIGATION

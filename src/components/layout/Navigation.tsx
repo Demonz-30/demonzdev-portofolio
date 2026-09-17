@@ -23,12 +23,41 @@ export function Navigation() {
   const isHiddenRef = useRef(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const logoVideoRef = useRef<HTMLVideoElement>(null);
+  const logoBoxRef = useRef<HTMLDivElement>(null);
+  const logoTextRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion && logoVideoRef.current) {
       logoVideoRef.current.pause();
     }
+
+    if (prefersReducedMotion) {
+      if (logoBoxRef.current) gsap.set(logoBoxRef.current, { opacity: 1, x: 0, scale: 1 });
+      if (logoTextRef.current) gsap.set(logoTextRef.current, { opacity: 1, x: 0 });
+      return;
+    }
+
+    const tl = gsap.timeline({ delay: 0.1 });
+    if (logoBoxRef.current) {
+      tl.fromTo(
+        logoBoxRef.current,
+        { opacity: 0, x: -8, scale: 0.97 },
+        { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: "power2.out" }
+      );
+    }
+    if (logoTextRef.current) {
+      tl.fromTo(
+        logoTextRef.current,
+        { opacity: 0, x: -6 },
+        { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" },
+        "-=0.5"
+      );
+    }
+
+    return () => {
+      tl.kill();
+    };
   }, []);
   
   useEffect(() => {
@@ -127,8 +156,16 @@ export function Navigation() {
             : "bg-transparent backdrop-blur-none border-b border-transparent"
         )}
       >
-        <TransitionLink href="/" className="relative z-[60] flex items-center gap-4 group cursor-pointer" data-cursor="hover">
-          <div className="w-10 h-10 relative flex items-center justify-center overflow-hidden rounded-md border border-white/10 shadow-lg">
+        <TransitionLink 
+          href="/" 
+          className="relative z-[60] flex items-center gap-3.5 group cursor-pointer focus:outline-none" 
+          data-cursor="hover"
+          aria-label="DEMONZDEV Home"
+        >
+          <div 
+            ref={logoBoxRef}
+            className="w-10 h-10 relative flex items-center justify-center overflow-hidden rounded-md border border-white/10 shadow-lg bg-zinc-950/40 transition-all duration-500 ease-out group-hover:scale-[1.03] group-hover:border-brand-purple/50 group-hover:shadow-[0_0_16px_rgba(112,0,255,0.22)]"
+          >
             <video
               ref={logoVideoRef}
               src="/assets/videos/demonz-logo.mp4?v=2"
@@ -137,10 +174,15 @@ export function Navigation() {
               loop
               playsInline
               controls={false}
-              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+              className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             />
           </div>
-          <span className="font-bold tracking-widest text-sm hidden md:block group-hover:text-brand-purple transition-colors duration-300">DEMONZDEV</span>
+          <span 
+            ref={logoTextRef}
+            className="font-bold tracking-widest text-sm hidden md:block text-white transition-all duration-500 ease-out group-hover:text-brand-purple-light group-hover:tracking-[0.16em]"
+          >
+            DEMONZDEV
+          </span>
         </TransitionLink>
 
         <div className="hidden md:flex gap-10 items-center">

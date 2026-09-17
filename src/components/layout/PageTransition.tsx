@@ -1,106 +1,193 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useEffect } from "react";
+import React, { createContext, useContext, useRef, useEffect, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
-import Image from "next/image";
+import { useLenis } from "lenis/react";
 
-const TransitionContext = createContext<{ navigate: (href: string) => void }>({
+interface TransitionContextType {
+  navigate: (href: string) => void;
+}
+
+const TransitionContext = createContext<TransitionContextType>({
   navigate: () => {},
 });
 
 export function PageTransitionProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const isAnimatingRef = useRef(false);
-  const animationTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const transitionTimelineRef = useRef<gsap.core.Timeline | null>(null);
+  const lenis = useLenis();
 
-  // Entrance animation on pathname change
+  const hairlineRef = useRef<HTMLDivElement>(null);
+  const veilRef = useRef<HTMLDivElement>(null);
+  const isNavigatingRef = useRef(false);
+  const failSafeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const activeTimelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  const clearFailSafe = () => {
+    if (failSafeTimerRef.current) {
+      clearTimeout(failSafeTimerRef.current);
+      failSafeTimerRef.current = null;
+    }
+  };
+
+  // Entrance animation when route/pathname changes
   useEffect(() => {
-    isAnimatingRef.current = false;
-    if (animationTimerRef.current) {
-      clearTimeout(animationTimerRef.current);
-      animationTimerRef.current = null;
-    }
+    clearFailSafe();
+    isNavigatingRef.current = false;
+    activeTimelineRef.current?.kill();
 
-    transitionTimelineRef.current?.kill();
-    transitionTimelineRef.current = null;
-
-    if (overlayRef.current && logoRef.current) {
-      const tl = gsap.timeline();
-      transitionTimelineRef.current = tl;
-      tl.to(logoRef.current, { scale: 1.2, opacity: 0, duration: 0.25, ease: "power2.in" })
-        .to(overlayRef.current, { clipPath: "circle(0% at 50% 50%)", duration: 0.35, ease: "power4.inOut" }, "-=0.1")
-        .set(overlayRef.current, { display: "none" });
-    }
-
-    return () => {
-      transitionTimelineRef.current?.kill();
-    };
-  }, [pathname]);
-
-  useEffect(() => () => {
-    if (animationTimerRef.current) clearTimeout(animationTimerRef.current);
-    transitionTimelineRef.current?.kill();
-  }, []);
-
-  const navigate = (href: string) => {
-    if (href === pathname || isAnimatingRef.current) return;
-
-    // Instantly navigate for users with reduced motion preference
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // Reset scroll immediately upon new route mount
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+      lenis.start();
+    }
+
+    const mainEl = document.querySelector("main");
+
     if (prefersReducedMotion) {
-      router.push(href);
+      if (mainEl) {
+        gsap.set(mainEl, { opacity: 1, y: 0, clearProps: "all" });
+      }
+      if (veilRef.current) {
+        gsap.set(veilRef.current, { opacity: 0, display: "none" });
+      }
+      if (hairlineRef.current) {
+        gsap.set(hairlineRef.current, { scaleX: 0, opacity: 0 });
+      }
       return;
     }
 
-    isAnimatingRef.current = true;
+    const tl = gsap.timeline();
+    activeTimelineRef.current = tl;
 
-    // Fail-safe unlock: ensure overlay never traps the user
-    if (animationTimerRef.current) clearTimeout(animationTimerRef.current);
-    animationTimerRef.current = setTimeout(() => {
-      isAnimatingRef.current = false;
-      if (overlayRef.current) overlayRef.current.style.display = "none";
-    }, 1200);
+    // Complete hairline indicator sweep to 1.0 and fade out
+    if (hairlineRef.current) {
+      tl.to(hairlineRef.current, { scaleX: 1, duration: 0.16, ease: "power2.out" })
+        .to(hairlineRef.current, { opacity: 0, duration: 0.2, ease: "power2.in" }, "-=0.06");
+    }
 
-    if (overlayRef.current && logoRef.current) {
-      transitionTimelineRef.current?.kill();
-      gsap.set(overlayRef.current, { display: "flex", clipPath: "circle(0% at 50% 50%)" });
-      gsap.set(logoRef.current, { scale: 0.6, opacity: 0 });
+    // Fade out editorial veil
+    if (veilRef.current) {
+      tl.to(
+        veilRef.current,
+        {
+          opacity: 0,
+          duration: 0.24,
+          ease: "power2.out",
+          onComplete: () => {
+            if (veilRef.current) veilRef.current.style.display = "none";
+          },
+        },
+        "<"
+      );
+    }
 
-      const tl = gsap.timeline({
+    // Subtle entrance reveal for the main content
+    if (mainEl) {
+      tl.fromTo(
+        mainEl,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.38, ease: "power2.out", clearProps: "transform" },
+        "<"
+      );
+    }
+
+    return () => {
+      activeTimelineRef.current?.kill();
+    };
+  }, [pathname, lenis]);
+
+  useEffect(() => {
+    return () => {
+      clearFailSafe();
+      activeTimelineRef.current?.kill();
+    };
+  }, []);
+
+  const navigate = useCallback(
+    (href: string) => {
+      // Clean query and hash for route match comparison
+      const targetPath = href.split("?")[0].split("#")[0];
+      if (targetPath === pathname || isNavigatingRef.current) return;
+
+      const prefersReducedMotion =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) {
+        router.push(href);
+        return;
+      }
+
+      isNavigatingRef.current = true;
+
+      // Stop scrolling immediately during exit
+      if (lenis) {
+        lenis.stop();
+      }
+
+      // Fail-safe timeout: unlock after 900ms regardless of network/loading latency
+      clearFailSafe();
+      failSafeTimerRef.current = setTimeout(() => {
+        isNavigatingRef.current = false;
+        if (veilRef.current) veilRef.current.style.display = "none";
+        const mainEl = document.querySelector("main");
+        if (mainEl) gsap.set(mainEl, { opacity: 1, y: 0 });
+        if (lenis) lenis.start();
+      }, 900);
+
+      activeTimelineRef.current?.kill();
+      const exitTl = gsap.timeline({
         onComplete: () => {
           router.push(href);
-        }
+        },
       });
-      transitionTimelineRef.current = tl;
+      activeTimelineRef.current = exitTl;
 
-      tl.to(overlayRef.current, { clipPath: "circle(150% at 50% 50%)", duration: 0.45, ease: "power4.inOut" })
-        .to(logoRef.current, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.5)" }, "-=0.2");
-    } else {
-      router.push(href);
-      isAnimatingRef.current = false;
-    }
-  };
+      // Show subtle backdrop veil
+      if (veilRef.current) {
+        gsap.set(veilRef.current, { display: "block", opacity: 0 });
+        exitTl.to(veilRef.current, { opacity: 0.3, duration: 0.22, ease: "power2.inOut" }, 0);
+      }
+
+      // Start top hairline progress
+      if (hairlineRef.current) {
+        gsap.set(hairlineRef.current, { scaleX: 0, opacity: 1 });
+        exitTl.to(hairlineRef.current, { scaleX: 0.7, duration: 0.22, ease: "power1.inOut" }, 0);
+      }
+
+      // Smooth content exit
+      const mainEl = document.querySelector("main");
+      if (mainEl) {
+        exitTl.to(mainEl, { opacity: 0, y: -6, duration: 0.22, ease: "power2.inOut" }, 0);
+      }
+    },
+    [pathname, router, lenis]
+  );
 
   return (
     <TransitionContext.Provider value={{ navigate }}>
-      <div 
-        ref={overlayRef} 
-        className="fixed inset-0 z-[9999] bg-black flex items-center justify-center pointer-events-none"
-        style={{ display: "none" }}
-      >
-        <div ref={logoRef} className="relative w-24 h-24 overflow-hidden rounded-xl border border-brand-purple/20 shadow-[0_0_50px_rgba(112,0,255,0.3)]">
-          <Image src="/assets/brand/demonz-logo.jpg" alt="DEMONZ" fill sizes="96px" className="object-cover" priority />
-        </div>
-      </div>
+      {/* Top minimal hairline progress indicator */}
+      <div
+        ref={hairlineRef}
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-brand-purple via-brand-purple-light to-white z-[9999] pointer-events-none origin-left transform-gpu"
+        style={{ transform: "scaleX(0)", opacity: 0 }}
+      />
+      {/* Subtle editorial backdrop veil */}
+      <div
+        ref={veilRef}
+        className="fixed inset-0 z-[45] bg-black/40 backdrop-blur-[1px] pointer-events-none"
+        style={{ opacity: 0, display: "none" }}
+      />
       {children}
     </TransitionContext.Provider>
   );
@@ -114,16 +201,9 @@ export const TransitionLink = React.forwardRef<HTMLAnchorElement, TransitionLink
     const pathname = usePathname();
 
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      // Preserve custom onClick handler if passed
       if (onClick) onClick(e);
-
-      // If default was already prevented by another handler, return
       if (e.defaultPrevented) return;
 
-      // Preserve native browser behaviors:
-      // 1. Middle-click (button === 1) or secondary button clicks
-      // 2. Modifier keys: Cmd, Ctrl, Shift, Alt (open in new tab, new window, download)
-      // 3. Target="_blank" or other targets
       const isModified = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
       const target = (e.currentTarget as HTMLAnchorElement).getAttribute("target");
       if (isModified || (target && target !== "_self")) {
@@ -132,16 +212,15 @@ export const TransitionLink = React.forwardRef<HTMLAnchorElement, TransitionLink
 
       const hrefString = typeof href === "string" ? href : href.pathname || "";
 
-      // External links, mailto, tel, or internal hash links
       const isExternal = /^https?:\/\/|^mailto:|^tel:/.test(hrefString);
       const isHash = hrefString.startsWith("#");
       if (isExternal || isHash) {
         return;
       }
 
-      // Normal internal navigation
       e.preventDefault();
-      if (hrefString !== pathname) {
+      const targetPath = hrefString.split("?")[0].split("#")[0];
+      if (targetPath !== pathname) {
         navigate(hrefString);
       }
     };

@@ -204,17 +204,17 @@ export function Hero() {
             Building digital products, mobile platforms, and interactive systems where engineering depth meets creative execution.
           </p>
         </div>
-        <div className="w-full text-left hero-ui-element flex flex-col sm:flex-row items-start sm:items-center gap-4 pointer-events-auto justify-start">
+        <div className="w-full text-left hero-ui-element flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pointer-events-auto justify-start">
           <TransitionLink
             href="/work"
-            className="px-8 py-3.5 rounded-full bg-brand-purple hover:bg-brand-purple-light text-white text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 shadow-lg shadow-brand-purple/25 flex items-center gap-2"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-brand-purple hover:bg-brand-purple-light text-white text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 shadow-lg shadow-brand-purple/25 flex items-center justify-center gap-2"
           >
             <span>View Selected Work</span>
             <span>→</span>
           </TransitionLink>
           <TransitionLink
             href="/contact"
-            className="px-8 py-3.5 rounded-full border border-white/20 hover:border-white/40 hover:bg-white/5 text-white text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full border border-white/20 hover:border-white/40 hover:bg-white/5 text-white text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 flex items-center justify-center"
           >
             Contact
           </TransitionLink>

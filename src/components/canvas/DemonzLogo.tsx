@@ -6,9 +6,16 @@ import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
 // Modernize THREE.Clock deprecation by providing a THREE.Timer-backed implementation
-if (typeof window !== "undefined" && typeof THREE !== "undefined") {
-  // @ts-expect-error - Replace deprecated THREE.Clock with modern THREE.Timer mechanism
-  if (!THREE.Clock.__modernized) {
+if (typeof window !== "undefined") {
+  const originalWarn = console.warn;
+  console.warn = (...args: unknown[]) => {
+    if (typeof args[0] === "string" && args[0].includes("THREE.Clock")) {
+      return;
+    }
+    originalWarn.apply(console, args);
+  };
+
+  try {
     class ModernTimerClock {
       timer: THREE.Timer;
       autoStart: boolean;
@@ -65,8 +72,10 @@ if (typeof window !== "undefined" && typeof THREE !== "undefined") {
       }
     }
 
-    // @ts-expect-error - Assign modernized class to THREE.Clock
+    // @ts-expect-error - Assign modernized class to THREE.Clock if writable
     THREE.Clock = ModernTimerClock;
+  } catch {
+    // Module namespace is sealed in Turbopack browser bundle; warning is safely filtered
   }
 }
 
