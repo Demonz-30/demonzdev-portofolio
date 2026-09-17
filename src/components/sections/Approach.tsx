@@ -92,7 +92,7 @@ export function Approach() {
         <div className="mb-14 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div>
             <span className="text-xs font-mono tracking-widest text-brand-purple-light uppercase mb-3 block">
-              04 // METHODOLOGY &amp; PROCESS
+              03 // METHODOLOGY &amp; PROCESS
             </span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white uppercase">
               {content.approach.heading}

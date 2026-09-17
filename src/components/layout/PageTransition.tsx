@@ -109,7 +109,7 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
 export type TransitionLinkProps = React.ComponentProps<typeof Link>;
 
 export const TransitionLink = React.forwardRef<HTMLAnchorElement, TransitionLinkProps>(
-  ({ href, children, onClick, ...props }, ref) => {
+  ({ href, children, onClick, prefetch = false, ...props }, ref) => {
     const { navigate } = useContext(TransitionContext);
     const pathname = usePathname();
 
@@ -147,7 +147,7 @@ export const TransitionLink = React.forwardRef<HTMLAnchorElement, TransitionLink
     };
 
     return (
-      <Link ref={ref} href={href} onClick={handleClick} {...props}>
+      <Link ref={ref} href={href} onClick={handleClick} prefetch={prefetch} {...props}>
         {children}
       </Link>
     );

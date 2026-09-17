@@ -215,7 +215,7 @@ export function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-32 md:py-48 px-6 md:px-12 bg-black relative overflow-hidden min-h-screen flex flex-col justify-center items-center"
+      className="py-32 md:py-48 px-4 sm:px-6 md:px-12 bg-black relative overflow-hidden min-h-screen flex flex-col justify-center items-center"
     >
       {/* Restrained Atmospheric Purple Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-brand-purple/10 rounded-full blur-[140px] pointer-events-none z-0" />
@@ -239,10 +239,10 @@ export function Contact() {
         <div className="w-full max-w-3xl mx-auto mb-14 perspective-1000">
           <div
             ref={dockRef}
-            className="p-3 sm:p-4 rounded-2xl md:rounded-3xl bg-zinc-950/80 border border-white/10 shadow-[0_24px_50px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-md transition-shadow duration-300"
+            className="p-2 sm:p-4 rounded-2xl md:rounded-3xl bg-zinc-950/80 border border-white/10 shadow-[0_24px_50px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-md transition-shadow duration-300"
           >
             {/* Recessed Key Tray */}
-            <ul className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-2.5 sm:gap-3 md:gap-4 p-2.5 sm:p-3.5 rounded-xl md:rounded-2xl bg-black/80 border border-white/5 shadow-[inset_0_2px_10px_rgba(0,0,0,0.9)] list-none m-0">
+            <ul className="grid grid-cols-5 gap-1.5 sm:gap-3 md:gap-4 p-2 sm:p-3.5 rounded-xl md:rounded-2xl bg-black/80 border border-white/5 shadow-[inset_0_2px_10px_rgba(0,0,0,0.9)] list-none m-0">
               {contactKeys.map((item, index) => {
                 const IconComponent = item.icon;
                 const isEmail = item.isEmail;
@@ -251,7 +251,7 @@ export function Contact() {
                   <li
                     key={item.id}
                     ref={(el) => { keysRef.current[index] = el; }}
-                    className="group/key relative flex-1 min-w-[58px] sm:min-w-[76px] md:min-w-[96px] max-w-[130px]"
+                    className="group/key relative w-full min-w-0 max-w-[130px] mx-auto"
                     onMouseEnter={() => setActiveTooltip(item.id)}
                     onMouseLeave={() => setActiveTooltip(null)}
                   >
@@ -283,22 +283,22 @@ export function Contact() {
                       onBlur={() => setActiveTooltip(null)}
                     >
                       {/* Physical Keycap */}
-                      <div className="relative h-20 sm:h-24 md:h-28 rounded-lg md:rounded-xl bg-gradient-to-b from-zinc-800/90 to-zinc-900/95 border border-white/10 flex flex-col items-center justify-between p-2.5 sm:p-3 shadow-[0_5px_0_#09090b,0_8px_14px_rgba(0,0,0,0.6)] group-hover/key:-translate-y-2 md:group-hover/key:-translate-y-3 group-focus-visible/key:-translate-y-2 md:group-focus-visible/key:-translate-y-3 group-hover/key:border-brand-purple/50 group-focus-visible/key:border-brand-purple/50 group-hover/key:shadow-[0_10px_0_#09090b,0_18px_24px_rgba(112,0,255,0.22)] group-focus-visible/key:shadow-[0_10px_0_#09090b,0_18px_24px_rgba(112,0,255,0.22)] group-active/key:translate-y-0.5 group-active/key:shadow-[0_2px_0_#09090b,0_4px_8px_rgba(0,0,0,0.7)] transition-all duration-300 ease-out cursor-pointer overflow-hidden">
+                      <div className="relative h-[72px] sm:h-24 md:h-28 rounded-lg md:rounded-xl bg-gradient-to-b from-zinc-800/90 to-zinc-900/95 border border-white/10 flex flex-col items-center justify-between p-2 sm:p-3 shadow-[0_4px_0_#09090b,0_6px_10px_rgba(0,0,0,0.6)] sm:shadow-[0_5px_0_#09090b,0_8px_14px_rgba(0,0,0,0.6)] group-hover/key:-translate-y-2 md:group-hover/key:-translate-y-3 group-focus-visible/key:-translate-y-2 md:group-focus-visible/key:-translate-y-3 group-hover/key:border-brand-purple/50 group-focus-visible/key:border-brand-purple/50 group-hover/key:shadow-[0_8px_0_#09090b,0_14px_20px_rgba(112,0,255,0.22)] sm:group-hover/key:shadow-[0_10px_0_#09090b,0_18px_24px_rgba(112,0,255,0.22)] group-focus-visible/key:shadow-[0_8px_0_#09090b,0_14px_20px_rgba(112,0,255,0.22)] sm:group-focus-visible/key:shadow-[0_10px_0_#09090b,0_18px_24px_rgba(112,0,255,0.22)] group-active/key:translate-y-0.5 group-active/key:shadow-[0_2px_0_#09090b,0_4px_8px_rgba(0,0,0,0.7)] transition-all duration-300 ease-out cursor-pointer overflow-hidden">
                         {/* Top Bevel Highlight */}
-                        <div className="absolute top-0 inset-x-2 h-[1px] bg-white/20 rounded-full pointer-events-none" />
+                        <div className="absolute top-0 inset-x-1.5 sm:inset-x-2 h-[1px] bg-white/20 rounded-full pointer-events-none" />
 
                         {/* Top Monogram Label */}
-                        <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-500 group-hover/key:text-brand-purple-light group-focus-visible/key:text-brand-purple-light transition-colors">
+                        <span className="text-[9px] sm:text-xs font-mono font-bold tracking-wider sm:tracking-widest text-zinc-500 group-hover/key:text-brand-purple-light group-focus-visible/key:text-brand-purple-light transition-colors">
                           {item.keyLabel}
                         </span>
 
                         {/* Center Platform Icon */}
                         <div className="my-auto text-zinc-400 group-hover/key:text-white group-focus-visible/key:text-white group-hover/key:drop-shadow-[0_0_8px_rgba(112,0,255,0.6)] group-focus-visible/key:drop-shadow-[0_0_8px_rgba(112,0,255,0.6)] transition-all duration-300">
-                          <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+                          <IconComponent className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" />
                         </div>
 
                         {/* Bottom Status Dot */}
-                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover/key:bg-brand-purple-light group-focus-visible/key:bg-brand-purple-light transition-colors duration-300" />
+                        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-zinc-700 group-hover/key:bg-brand-purple-light group-focus-visible/key:bg-brand-purple-light transition-colors duration-300" />
                       </div>
                     </a>
                   </li>

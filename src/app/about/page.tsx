@@ -22,7 +22,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
           <div>
             <span className="text-xs font-mono tracking-widest text-brand-purple-light uppercase mb-3 block">
-              03 // NEXT STEP &amp; COLLABORATION
+              04 // NEXT STEP &amp; COLLABORATION
             </span>
             <h3 className="text-3xl md:text-5xl font-black tracking-tighter text-white uppercase">
               HAVE A PROJECT IN MIND?

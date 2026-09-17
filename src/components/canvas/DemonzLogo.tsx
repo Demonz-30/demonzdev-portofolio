@@ -5,6 +5,71 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
+// Modernize THREE.Clock deprecation by providing a THREE.Timer-backed implementation
+if (typeof window !== "undefined" && typeof THREE !== "undefined") {
+  // @ts-expect-error - Replace deprecated THREE.Clock with modern THREE.Timer mechanism
+  if (!THREE.Clock.__modernized) {
+    class ModernTimerClock {
+      timer: THREE.Timer;
+      autoStart: boolean;
+      startTime: number;
+      oldTime: number;
+      elapsedTime: number;
+      running: boolean;
+      static __modernized = true;
+
+      constructor(autoStart = true) {
+        this.timer = new THREE.Timer();
+        this.autoStart = autoStart;
+        this.startTime = 0;
+        this.oldTime = 0;
+        this.elapsedTime = 0;
+        this.running = false;
+        if (autoStart) {
+          this.start();
+        }
+      }
+
+      start() {
+        this.timer.reset();
+        this.startTime = performance.now();
+        this.oldTime = this.startTime;
+        this.elapsedTime = 0;
+        this.running = true;
+      }
+
+      stop() {
+        this.getElapsedTime();
+        this.running = false;
+        this.autoStart = false;
+      }
+
+      getElapsedTime() {
+        this.getDelta();
+        return this.elapsedTime;
+      }
+
+      getDelta() {
+        let diff = 0;
+        if (this.autoStart && !this.running) {
+          this.start();
+          return 0;
+        }
+        if (this.running) {
+          this.timer.update();
+          diff = this.timer.getDelta();
+          this.elapsedTime = this.timer.getElapsed();
+          this.oldTime = performance.now();
+        }
+        return diff;
+      }
+    }
+
+    // @ts-expect-error - Assign modernized class to THREE.Clock
+    THREE.Clock = ModernTimerClock;
+  }
+}
+
 const vertexShader = `
 uniform float uTime;
 uniform float uProgress;
