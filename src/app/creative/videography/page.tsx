@@ -4,9 +4,14 @@ import { ArrowLeft, ArrowRight, Film, Play, Clock, Monitor } from "lucide-react"
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "VIDEOGRAPHY ARCHIVE | DEMONZ",
+  title: "Videography Archive",
   description:
     "Motion capture and documentary videography reel exploring cinematic narrative and observational flow.",
+  openGraph: {
+    title: "Videography Archive | DEMONZDEV",
+    description:
+      "Motion capture and documentary videography reel exploring cinematic narrative and observational flow.",
+  },
 };
 
 export default function VideographyArchivePage() {

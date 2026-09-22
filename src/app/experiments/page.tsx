@@ -1,8 +1,15 @@
 import { ExperimentsPlayground } from "@/components/sections/ExperimentsPlayground";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "EXPERIMENTS | DEMONZ",
-  description: "Technical creativity, exploring AI, creative engineering, motion systems, and interactive web fragments.",
+export const metadata: Metadata = {
+  title: "Experiments Playground",
+  description:
+    "Technical creativity, exploring generative algorithms, shaders, motion systems, and computational fragments.",
+  openGraph: {
+    title: "Experiments Playground | DEMONZDEV",
+    description:
+      "Technical creativity, exploring generative algorithms, shaders, motion systems, and computational fragments.",
+  },
 };
 
 export default function ExperimentsPage() {

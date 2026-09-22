@@ -218,7 +218,7 @@ function LogoMesh({ scrollProgress, active }: { scrollProgress: React.MutableRef
 
   return (
     <mesh ref={meshRef} position={[0, 0, 0]}>
-      <planeGeometry args={[5, 5, 128, 128]} />
+      <planeGeometry args={[5, 5, 64, 64]} />
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}
@@ -237,7 +237,7 @@ export function DemonzLogo({ scrollProgress, active = true }: { scrollProgress: 
     <div className="w-full h-full absolute inset-0 z-0 pointer-events-auto">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }}
         frameloop={active ? "always" : "demand"}
       >

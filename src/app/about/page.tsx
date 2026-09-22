@@ -3,10 +3,17 @@ import { Philosophy } from "@/components/sections/Philosophy";
 import { WhatIDo } from "@/components/sections/WhatIDo";
 import { Approach } from "@/components/sections/Approach";
 import { TransitionLink } from "@/components/layout/PageTransition";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "ABOUT | DEMONZ",
-  description: "I create. I build. I experiment. Discover the creative technologist behind DEMONZ.",
+export const metadata: Metadata = {
+  title: "About & Philosophy",
+  description:
+    "Engineering depth meets creative execution. Discover the background, capabilities, and methodology behind DEMONZDEV.",
+  openGraph: {
+    title: "About & Philosophy | DEMONZDEV",
+    description:
+      "Engineering depth meets creative execution. Discover the background, capabilities, and methodology behind DEMONZDEV.",
+  },
 };
 
 export default function AboutPage() {

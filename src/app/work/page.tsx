@@ -1,8 +1,15 @@
 import { Projects } from "@/components/sections/Projects";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "WORK | DEMONZ",
-  description: "Explore selected digital products, applications, and creative works by DEMONZ.",
+export const metadata: Metadata = {
+  title: "Selected Work",
+  description:
+    "Featured digital products, mobile platforms, and interactive engineering systems built by DEMONZDEV.",
+  openGraph: {
+    title: "Selected Work | DEMONZDEV",
+    description:
+      "Featured digital products, mobile platforms, and interactive engineering systems built by DEMONZDEV.",
+  },
 };
 
 export default function WorkPage() {

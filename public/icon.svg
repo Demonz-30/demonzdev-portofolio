@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#030305"/>
+  <path d="M32 8L52 19.5V44.5L32 56L12 44.5V19.5L32 8Z" stroke="#7000FF" stroke-width="2" stroke-linejoin="round" fill="#0A0A12"/>
+  <path d="M32 14L47 22.7V41.3L32 50L17 41.3V22.7L32 14Z" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+  <!-- Stylized Geometric DMZ Monogram -->
+  <path d="M22 24V40H27C30.3 40 33 37.3 33 34V30C33 26.7 30.3 24 27 24H22ZM26 27.5H27C28.4 27.5 29.5 28.6 29.5 30V34C29.5 35.4 28.4 36.5 27 36.5H26V27.5Z" fill="#9B4DFF"/>
+  <path d="M34 24H37.5L41 33.5L44.5 24H48V40H44.5V30.5L41.5 38.5H40.5L37.5 30.5V40H34V24Z" fill="#FFFFFF"/>
+</svg>
+

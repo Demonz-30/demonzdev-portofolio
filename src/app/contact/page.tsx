@@ -1,8 +1,15 @@
 import { Contact } from "@/components/sections/Contact";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "CONTACT | DEMONZ",
-  description: "Let's create something. Start a project with DEMONZ.",
+export const metadata: Metadata = {
+  title: "Contact & Collaboration",
+  description:
+    "Direct channels for software engineering, product development, creative technology, and business collaboration with DEMONZDEV.",
+  openGraph: {
+    title: "Contact & Collaboration | DEMONZDEV",
+    description:
+      "Direct channels for software engineering, product development, creative technology, and business collaboration with DEMONZDEV.",
+  },
 };
 
 export default function ContactPage() {

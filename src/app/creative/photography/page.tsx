@@ -5,9 +5,14 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "PHOTOGRAPHY ARCHIVE | DEMONZ",
+  title: "Photography Archive",
   description:
     "An editorial archive of 18 photography works across commercial craft, documentary portraiture, and behind-the-scenes moments.",
+  openGraph: {
+    title: "Photography Archive | DEMONZDEV",
+    description:
+      "An editorial archive of 18 photography works across commercial craft, documentary portraiture, and behind-the-scenes moments.",
+  },
 };
 
 export default function PhotographyArchivePage() {

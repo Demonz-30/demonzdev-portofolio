@@ -15,6 +15,24 @@ export function HomepageVideoBackground() {
     const video = videoRef.current;
     if (!container || !video) return;
 
+    const onPlay = () => {
+      if (video) {
+        video.play().catch(() => {});
+      }
+    };
+
+    const isPreloaderActive =
+      typeof document !== "undefined" &&
+      Boolean(document.querySelector(".demonz-preloader")) &&
+      !window.__demonz_boot_revealed;
+
+    if (!isPreloaderActive) {
+      onPlay();
+    } else {
+      window.addEventListener("demonz:boot-warmup", onPlay, { once: true });
+      window.addEventListener("demonz:boot-reveal", onPlay, { once: true });
+    }
+
     const media = gsap.matchMedia();
 
     media.add("(prefers-reduced-motion: no-preference)", () => {
@@ -43,7 +61,11 @@ export function HomepageVideoBackground() {
       gsap.set(video, { yPercent: 0 });
     });
 
-    return () => media.revert();
+    return () => {
+      window.removeEventListener("demonz:boot-warmup", onPlay);
+      window.removeEventListener("demonz:boot-reveal", onPlay);
+      media.revert();
+    };
   }, []);
 
   return (

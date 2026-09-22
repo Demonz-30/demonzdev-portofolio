@@ -4,9 +4,14 @@ import { ArrowRight, Camera, Film, Terminal } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CREATIVE DIRECTORY | DEMONZ",
+  title: "Creative Directory",
   description:
-    "Discipline-based creative directory spanning Photography, Videography, and Creative Code by DEMONZ.",
+    "Discipline-based creative directory spanning Photography, Videography, and Creative Code by DEMONZDEV.",
+  openGraph: {
+    title: "Creative Directory | DEMONZDEV",
+    description:
+      "Discipline-based creative directory spanning Photography, Videography, and Creative Code by DEMONZDEV.",
+  },
 };
 
 export default function CreativeLandingPage() {

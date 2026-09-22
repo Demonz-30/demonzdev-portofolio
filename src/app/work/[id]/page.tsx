@@ -4,11 +4,54 @@ import Image from "next/image";
 import { TransitionLink } from "@/components/layout/PageTransition";
 import { CaseStudyHeroMotion } from "@/components/case-study/CaseStudyMotion";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   return getCaseStudyProjects().map((p) => ({
     id: p.id,
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const project = getProjectById(resolvedParams.id);
+
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+
+  const title = `${project.title} — Case Study`;
+  const description =
+    project.description || `${project.title} product engineering case study by DEMONZDEV.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `${title} | DEMONZDEV`,
+      description,
+      images: [
+        {
+          url: project.media.cover,
+          width: 1200,
+          height: 630,
+          alt: `${project.title} — Case Study`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | DEMONZDEV`,
+      description,
+      images: [project.media.cover],
+    },
+  };
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
