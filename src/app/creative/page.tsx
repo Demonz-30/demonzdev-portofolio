@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, Camera, Film, Terminal } from "lucide-react";
 import type { Metadata } from "next";
 
+import { assetPath } from "@/lib/paths";
 export const metadata: Metadata = {
   title: "Creative Directory",
   description:
@@ -29,7 +30,7 @@ export default function CreativeLandingPage() {
       icon: Camera,
       preview: {
         type: "image" as const,
-        src: "/assets/photography/Creative/fotografi/16,9.jpg",
+        src: assetPath("/assets/photography/Creative/fotografi/16,9.jpg"),
         alt: "Demonz Coffee Robusta Lampung Staging",
       },
     },
@@ -46,7 +47,7 @@ export default function CreativeLandingPage() {
       icon: Film,
       preview: {
         type: "video" as const,
-        src: "/assets/photography/Creative/video%20grafi/videpgrafi.mp4",
+        src: assetPath("/assets/photography/Creative/video%20grafi/videpgrafi.mp4"),
       },
     },
     {
@@ -62,7 +63,7 @@ export default function CreativeLandingPage() {
       icon: Terminal,
       preview: {
         type: "video" as const,
-        src: "/assets/photography/Creative/creative%20code/creative%20code.mp4",
+        src: assetPath("/assets/photography/Creative/creative%20code/creative%20code.mp4"),
       },
     },
   ];

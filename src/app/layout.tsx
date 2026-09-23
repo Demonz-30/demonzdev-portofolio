@@ -9,6 +9,7 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 
 import { siteConfig } from "@/config/site";
 
+import { assetPath } from "@/lib/paths";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
   creator: siteConfig.author,
   publisher: siteConfig.name,
   alternates: {
-    canonical: "./",
+    canonical: siteConfig.url,
   },
   openGraph: {
     title: `${siteConfig.name} | ${siteConfig.tagline}`,
@@ -80,10 +81,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: assetPath("/favicon.ico") },
+      { url: assetPath("/icon.svg"), type: "image/svg+xml" },
     ],
-    apple: "/assets/brand/demonz-logo.jpg",
+    apple: assetPath("/assets/brand/demonz-logo.jpg"),
   },
   manifest: "/manifest.webmanifest",
 };

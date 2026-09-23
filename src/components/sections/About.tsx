@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { content } from "@/data/content";
 
+import { assetPath } from "@/lib/paths";
 gsap.registerPlugin(ScrollTrigger);
 
 export function About() {
@@ -125,7 +126,7 @@ export function About() {
               >
                 <Image
                   ref={imgElementRef}
-                  src="/assets/media/portrait-main.webp"
+                  src={assetPath("/assets/media/portrait-main.webp")}
                   alt="Demonz Portrait"
                   fill
                   priority

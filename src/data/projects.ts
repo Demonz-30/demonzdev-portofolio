@@ -1,3 +1,4 @@
+import { assetPath } from "@/lib/paths";
 export interface ProjectMetric {
   label: string;
   value: string;
@@ -87,12 +88,12 @@ export const projects: Project[] = [
     focus: ["Product Engineering", "Mobile Application", "UI/UX Architecture", "Financial Systems"],
     stack: ["Mobile Application", "Product Engineering", "UI/UX Design", "Financial Systems"],
     media: {
-      cover: "/assets/projects/finora-1.jpeg",
-      dashboardPreview: "/assets/projects/finora-dashboard.jpeg",
+      cover: assetPath("/assets/projects/finora-1.jpeg"),
+      dashboardPreview: assetPath("/assets/projects/finora-dashboard.jpeg"),
       aspectRatio: "2/1",
       orientation: "landscape",
       mobileMockups: [
-        "/assets/projects/finora-dashboard.jpeg"
+        assetPath("/assets/projects/finora-dashboard.jpeg")
       ]
     },
     caseStudy: {
@@ -141,13 +142,13 @@ export const projects: Project[] = [
     focus: ["Product Development", "UI/UX", "Android", "Backend", "Database"],
     stack: ["Android SDK", "Kotlin", "SQLite/Room", "REST APIs", "UI/UX"],
     media: {
-      cover: "/assets/projects/gizvana-1.jpg",
-      dashboardPreview: "/assets/projects/gizvana-1.jpg",
+      cover: assetPath("/assets/projects/gizvana-1.jpg"),
+      dashboardPreview: assetPath("/assets/projects/gizvana-1.jpg"),
       aspectRatio: "3/2",
       orientation: "landscape",
       mobileMockups: [
-        "/assets/projects/gizvana-1.jpg",
-        "/assets/projects/gizvana-2.jpg"
+        assetPath("/assets/projects/gizvana-1.jpg"),
+        assetPath("/assets/projects/gizvana-2.jpg")
       ]
     },
     caseStudy: {
@@ -196,12 +197,12 @@ export const projects: Project[] = [
     focus: ["Product Development", "Flutter", "UI/UX", "Firebase", "AI-assisted workflow", "Application architecture"],
     stack: ["Flutter", "Dart", "Firebase Firestore", "Firebase Auth", "AI Matching Engine"],
     media: {
-      cover: "/assets/projects/hyperassist-1.jpg",
-      dashboardPreview: "/assets/projects/hyperassist-dashboard.jpeg",
+      cover: assetPath("/assets/projects/hyperassist-1.jpg"),
+      dashboardPreview: assetPath("/assets/projects/hyperassist-dashboard.jpeg"),
       aspectRatio: "1/1",
       orientation: "square",
       mobileMockups: [
-        "/assets/projects/hyperassist-dashboard.jpeg"
+        assetPath("/assets/projects/hyperassist-dashboard.jpeg")
       ]
     },
     caseStudy: {
@@ -251,13 +252,13 @@ export const projects: Project[] = [
     focus: ["Product Engineering", "Mobile Application", "UI/UX Architecture", "Academic Systems"],
     stack: ["Mobile Application", "Schedule Engine", "UI/UX Design", "Local Persistence"],
     media: {
-      cover: "/assets/projects/logo-jadwalku.jpeg",
-      dashboardPreview: "/assets/projects/jadwalku-dashboard.jpeg",
+      cover: assetPath("/assets/projects/logo-jadwalku.jpeg"),
+      dashboardPreview: assetPath("/assets/projects/jadwalku-dashboard.jpeg"),
       aspectRatio: "4/5",
       orientation: "portrait",
       mobileMockups: [
-        "/assets/projects/jadwalku-dashboard.jpeg",
-        "/assets/projects/logo-jadwalku.jpeg"
+        assetPath("/assets/projects/jadwalku-dashboard.jpeg"),
+        assetPath("/assets/projects/logo-jadwalku.jpeg")
       ]
     },
     caseStudy: {
@@ -306,8 +307,8 @@ export const projects: Project[] = [
     focus: ["Product Development", "Branding", "Photography", "Marketing", "Content"],
     stack: ["Product Development", "Branding", "Photography", "Marketing", "Content Strategy"],
     media: {
-      cover: "/assets/photography/demonz-coffee.webp",
-      coverWebp: "/assets/photography/demonz-coffee.webp",
+      cover: assetPath("/assets/photography/demonz-coffee.webp"),
+      coverWebp: assetPath("/assets/photography/demonz-coffee.webp"),
       aspectRatio: "16/10",
       orientation: "landscape"
     },
@@ -360,8 +361,8 @@ export const projects: Project[] = [
     focus: ["Photography", "Cinematography", "Video Editing", "Promotional Content"],
     stack: ["Photography", "Cinematography", "Video Editing", "Color Grading", "Visual Storytelling"],
     media: {
-      cover: "/assets/photography/creative-multimedia.jpg",
-      coverWebp: "/assets/photography/creative-multimedia.jpg",
+      cover: assetPath("/assets/photography/creative-multimedia.jpg"),
+      coverWebp: assetPath("/assets/photography/creative-multimedia.jpg"),
       aspectRatio: "16/10",
       orientation: "landscape"
     },

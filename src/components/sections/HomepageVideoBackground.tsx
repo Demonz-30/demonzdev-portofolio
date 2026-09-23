@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { assetPath } from "@/lib/paths";
 gsap.registerPlugin(ScrollTrigger);
 
 export function HomepageVideoBackground() {
@@ -73,7 +74,7 @@ export function HomepageVideoBackground() {
       <video
         ref={videoRef}
         className="absolute inset-y-[-5%] left-0 h-[110%] w-full object-cover opacity-20 md:opacity-25"
-        src="/assets/videos/demonz-bg.mp4"
+        src={assetPath("/assets/videos/demonz-bg.mp4")}
         autoPlay
         muted
         loop

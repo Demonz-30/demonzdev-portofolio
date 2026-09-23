@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
 
+import { assetPath } from "@/lib/paths";
 const links = [
   { label: "HOME", href: "/" },
   { label: "WORK", href: "/work" },
@@ -168,7 +169,7 @@ export function Navigation() {
           >
             <video
               ref={logoVideoRef}
-              src="/assets/videos/demonz-logo.mp4?v=2"
+              src={assetPath("/assets/videos/demonz-logo.mp4?v=2")}
               autoPlay
               muted
               loop

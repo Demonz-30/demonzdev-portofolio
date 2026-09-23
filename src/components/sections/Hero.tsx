@@ -9,6 +9,7 @@ import { content } from "@/data/content";
 import { DemonzLogo } from "@/components/canvas/DemonzLogo";
 import { HomepageVideoBackground } from "@/components/sections/HomepageVideoBackground";
 
+import { assetPath } from "@/lib/paths";
 gsap.registerPlugin(ScrollTrigger);
 
 const ROTATING_ROLES = [
@@ -255,7 +256,7 @@ export function Hero() {
       {/* Static Fallback (Mobile) */}
       <div className="flex md:hidden absolute inset-0 z-0 items-center justify-center opacity-30 mix-blend-screen pointer-events-none overflow-hidden">
         <div className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] hero-mobile-logo">
-          <Image src="/assets/brand/demonz-logo.jpg" alt="DEMONZ Logo" fill sizes="(max-width: 640px) 260px, 300px" className="object-contain" priority />
+          <Image src={assetPath("/assets/brand/demonz-logo.jpg")} alt="DEMONZ Logo" fill sizes="(max-width: 640px) 260px, 300px" className="object-contain" priority />
         </div>
       </div>
 

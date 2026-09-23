@@ -1,3 +1,4 @@
+import { assetPath } from "@/lib/paths";
 export interface ExperimentItem {
   id: string;
   title: string;
@@ -24,7 +25,7 @@ export const experimentsData: ExperimentItem[] = [
     tag: "Interactive / WebGL",
     desc: "Algorithmic coordinate matrix computing geometric transformations and wave disturbances via GPU shaders.",
     description: "Algorithmic coordinate matrix computing geometric transformations and wave disturbances via GPU shaders.",
-    image: "/assets/photography/creative-code.jpeg",
+    image: assetPath("/assets/photography/creative-code.jpeg"),
     href: "/creative/creative-code",
   },
   {

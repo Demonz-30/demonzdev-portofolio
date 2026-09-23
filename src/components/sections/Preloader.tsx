@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useLenis } from "lenis/react";
 
+import { assetPath } from "@/lib/paths";
 declare global {
   interface Window {
     __demonz_boot_revealed?: boolean;
@@ -594,7 +595,7 @@ export function Preloader() {
             className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full overflow-hidden border border-brand-purple/40 shadow-[0_0_30px_rgba(112,0,255,0.25)] md:shadow-[0_0_40px_rgba(112,0,255,0.25)] flex items-center justify-center bg-black"
           >
             <Image
-              src="/assets/brand/demonz-logo.jpg"
+              src={assetPath("/assets/brand/demonz-logo.jpg")}
               alt="DEMONZ"
               fill
               sizes="(max-width: 768px) 80px, 128px"

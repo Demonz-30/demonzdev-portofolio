@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
+import { assetPath } from "@/lib/paths";
 // Modernize THREE.Clock deprecation by providing a THREE.Timer-backed implementation
 if (typeof window !== "undefined") {
   const originalWarn = console.warn;
@@ -181,7 +182,7 @@ void main() {
 function LogoMesh({ scrollProgress, active }: { scrollProgress: React.MutableRefObject<number>, active: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
-  const texture = useTexture("/assets/brand/demonz-logo.jpg");
+  const texture = useTexture(assetPath("/assets/brand/demonz-logo.jpg"));
   
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },

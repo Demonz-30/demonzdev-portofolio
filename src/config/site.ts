@@ -12,8 +12,9 @@ const getSiteUrl = (): string => {
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "");
   }
-  // Production fallback on Cloudflare Pages
-  return "https://demonz-portfolio.pages.dev";
+  return process.env.GITHUB_PAGES === "true"
+    ? "https://demonz-30.github.io/demonzdev-portofolio"
+    : "https://demonz-portfolio.pages.dev";
 };
 
 export const siteConfig = {
@@ -23,7 +24,7 @@ export const siteConfig = {
   description:
     "Building digital products, mobile platforms, and interactive systems where engineering depth meets creative execution.",
   url: getSiteUrl(),
-  ogImage: "/assets/brand/demonz-logo.jpg",
+  ogImage: "assets/brand/demonz-logo.jpg",
   author: "DEMONZ",
   links: {
     github: "https://github.com/Demonz-30",

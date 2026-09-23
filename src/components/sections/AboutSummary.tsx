@@ -5,6 +5,7 @@ import { content } from "@/data/content";
 import { TransitionLink } from "@/components/layout/PageTransition";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 
+import { assetPath } from "@/lib/paths";
 export function AboutSummary() {
   const sectionRef = useScrollReveal<HTMLElement>({ selector: "[data-home-reveal]", stagger: 0.1 });
 
@@ -28,7 +29,7 @@ export function AboutSummary() {
           <div data-home-reveal className="lg:col-span-5 relative w-full aspect-[4/5] max-w-md mx-auto lg:mx-0">
             <div className="w-full h-full relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-surface">
               <Image 
-                src="/assets/media/portrait-main.webp" 
+                src={assetPath("/assets/media/portrait-main.webp")}
                 alt="Demonz Portrait"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
