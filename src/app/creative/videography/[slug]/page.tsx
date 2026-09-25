@@ -4,6 +4,8 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 import { ArrowLeft, Film, Info, Layers, Sliders } from "lucide-react";
 import type { Metadata } from "next";
 
+import { routeMetadata } from "@/lib/metadata";
+
 export async function generateStaticParams() {
   return getVideographyWorks().map((work) => ({
     slug: work.slug,
@@ -19,15 +21,15 @@ export async function generateMetadata({
   const work = getVideographyWorkBySlug(resolvedParams.slug);
 
   if (!work) {
-    return {
+    return routeMetadata(`/creative/videography/${resolvedParams.slug}/`, {
       title: "Work Not Found | DEMONZ VIDEOGRAPHY",
-    };
+    });
   }
 
-  return {
+  return routeMetadata(`/creative/videography/${resolvedParams.slug}/`, {
     title: `${work.title} | DEMONZ VIDEOGRAPHY`,
     description: work.shortIntro,
-  };
+  });
 }
 
 export default async function VideographyDetailPage({

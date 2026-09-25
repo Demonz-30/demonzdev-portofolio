@@ -1,7 +1,9 @@
 import { ExperimentsPlayground } from "@/components/sections/ExperimentsPlayground";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/experiments/", {
   title: "Experiments Playground",
   description:
     "Technical creativity, exploring generative algorithms, shaders, motion systems, and computational fragments.",
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
     description:
       "Technical creativity, exploring generative algorithms, shaders, motion systems, and computational fragments.",
   },
-};
+});
 
 export default function ExperimentsPage() {
   return (

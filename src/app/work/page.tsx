@@ -1,7 +1,9 @@
 import { Projects } from "@/components/sections/Projects";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/work/", {
   title: "Selected Work",
   description:
     "Featured digital products, mobile platforms, and interactive engineering systems built by DEMONZDEV.",
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
     description:
       "Featured digital products, mobile platforms, and interactive engineering systems built by DEMONZDEV.",
   },
-};
+});
 
 export default function WorkPage() {
   return (

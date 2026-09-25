@@ -4,7 +4,9 @@ import { ArrowRight, Camera, Film, Terminal } from "lucide-react";
 import type { Metadata } from "next";
 
 import { assetPath } from "@/lib/paths";
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/creative/", {
   title: "Creative Directory",
   description:
     "Discipline-based creative directory spanning Photography, Videography, and Creative Code by DEMONZDEV.",
@@ -13,7 +15,7 @@ export const metadata: Metadata = {
     description:
       "Discipline-based creative directory spanning Photography, Videography, and Creative Code by DEMONZDEV.",
   },
-};
+});
 
 export default function CreativeLandingPage() {
   const disciplines = [

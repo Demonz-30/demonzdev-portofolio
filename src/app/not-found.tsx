@@ -2,14 +2,16 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/", {
   title: "404 // Signal Lost | DEMONZDEV",
   description: "The requested system coordinate does not exist or has been relocated within the DEMONZDEV runtime.",
   robots: {
     index: false,
     follow: false,
   },
-};
+});
 
 export default function NotFound() {
   return (

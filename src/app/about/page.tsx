@@ -5,7 +5,9 @@ import { Approach } from "@/components/sections/Approach";
 import { TransitionLink } from "@/components/layout/PageTransition";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/about/", {
   title: "About & Philosophy",
   description:
     "Engineering depth meets creative execution. Discover the background, capabilities, and methodology behind DEMONZDEV.",
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
     description:
       "Engineering depth meets creative execution. Discover the background, capabilities, and methodology behind DEMONZDEV.",
   },
-};
+});
 
 export default function AboutPage() {
   return (

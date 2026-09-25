@@ -1,7 +1,9 @@
 import { Contact } from "@/components/sections/Contact";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/contact/", {
   title: "Contact & Collaboration",
   description:
     "Direct channels for software engineering, product development, creative technology, and business collaboration with DEMONZDEV.",
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
     description:
       "Direct channels for software engineering, product development, creative technology, and business collaboration with DEMONZDEV.",
   },
-};
+});
 
 export default function ContactPage() {
   return (

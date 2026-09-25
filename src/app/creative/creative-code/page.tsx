@@ -3,7 +3,9 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 import { ArrowLeft, ArrowRight, Terminal, Clock, Monitor, Play } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/creative/creative-code/", {
   title: "Creative Code Archive",
   description:
     "Computational visual systems, generative layout experiments, and interactive screen studies.",
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
     description:
       "Computational visual systems, generative layout experiments, and interactive screen studies.",
   },
-};
+});
 
 export default function CreativeCodeArchivePage() {
   const works = getCreativeCodeWorks();

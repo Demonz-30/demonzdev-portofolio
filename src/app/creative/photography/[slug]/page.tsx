@@ -5,6 +5,8 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 import { ArrowLeft, ArrowRight, Camera, Info, Layers, Sliders } from "lucide-react";
 import type { Metadata } from "next";
 
+import { routeMetadata } from "@/lib/metadata";
+
 export async function generateStaticParams() {
   return getPhotographyWorks().map((work) => ({
     slug: work.slug,
@@ -20,15 +22,15 @@ export async function generateMetadata({
   const work = getPhotographyWorkBySlug(resolvedParams.slug);
 
   if (!work) {
-    return {
+    return routeMetadata(`/creative/photography/${resolvedParams.slug}/`, {
       title: "Work Not Found | DEMONZ CREATIVE",
-    };
+    });
   }
 
-  return {
+  return routeMetadata(`/creative/photography/${resolvedParams.slug}/`, {
     title: `${work.title} | DEMONZ PHOTOGRAPHY`,
     description: work.shortIntro,
-  };
+  });
 }
 
 export default async function PhotographyDetailPage({

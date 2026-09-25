@@ -3,7 +3,9 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 import { ArrowLeft, ArrowRight, Film, Play, Clock, Monitor } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/creative/videography/", {
   title: "Videography Archive",
   description:
     "Motion capture and documentary videography reel exploring cinematic narrative and observational flow.",
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
     description:
       "Motion capture and documentary videography reel exploring cinematic narrative and observational flow.",
   },
-};
+});
 
 export default function VideographyArchivePage() {
   const works = getVideographyWorks();

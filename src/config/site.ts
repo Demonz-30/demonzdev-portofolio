@@ -14,7 +14,7 @@ const getSiteUrl = (): string => {
   }
   return process.env.GITHUB_PAGES === "true"
     ? "https://demonz-30.github.io/demonzdev-portofolio"
-    : "https://demonz-portfolio.pages.dev";
+    : "https://demonzdev.my.id";
 };
 
 export const siteConfig = {

@@ -4,7 +4,9 @@ import Image from "next/image";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata("/creative/photography/", {
   title: "Photography Archive",
   description:
     "An editorial archive of 18 photography works across commercial craft, documentary portraiture, and behind-the-scenes moments.",
@@ -13,7 +15,7 @@ export const metadata: Metadata = {
     description:
       "An editorial archive of 18 photography works across commercial craft, documentary portraiture, and behind-the-scenes moments.",
   },
-};
+});
 
 export default function PhotographyArchivePage() {
   const works = getPhotographyWorks();

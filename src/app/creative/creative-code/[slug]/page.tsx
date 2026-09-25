@@ -4,6 +4,8 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 import { ArrowLeft, Info, Layers, Sliders, Terminal } from "lucide-react";
 import type { Metadata } from "next";
 
+import { routeMetadata } from "@/lib/metadata";
+
 export async function generateStaticParams() {
   return getCreativeCodeWorks().map((work) => ({
     slug: work.slug,
@@ -19,15 +21,15 @@ export async function generateMetadata({
   const work = getCreativeCodeWorkBySlug(resolvedParams.slug);
 
   if (!work) {
-    return {
+    return routeMetadata(`/creative/creative-code/${resolvedParams.slug}/`, {
       title: "Work Not Found | DEMONZ CREATIVE CODE",
-    };
+    });
   }
 
-  return {
+  return routeMetadata(`/creative/creative-code/${resolvedParams.slug}/`, {
     title: `${work.title} | DEMONZ CREATIVE CODE`,
     description: work.shortIntro,
-  };
+  });
 }
 
 export default async function CreativeCodeDetailPage({

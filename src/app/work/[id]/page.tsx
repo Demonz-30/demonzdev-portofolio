@@ -6,6 +6,8 @@ import { CaseStudyHeroMotion } from "@/components/case-study/CaseStudyMotion";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 
+import { routeMetadata } from "@/lib/metadata";
+
 export async function generateStaticParams() {
   return getCaseStudyProjects().map((p) => ({
     id: p.id,
@@ -21,16 +23,16 @@ export async function generateMetadata({
   const project = getProjectById(resolvedParams.id);
 
   if (!project) {
-    return {
+    return routeMetadata(`/work/${resolvedParams.id}/`, {
       title: "Project Not Found",
-    };
+    });
   }
 
   const title = `${project.title} — Case Study`;
   const description =
     project.description || `${project.title} product engineering case study by DEMONZDEV.`;
 
-  return {
+  return routeMetadata(`/work/${resolvedParams.id}/`, {
     title,
     description,
     openGraph: {
@@ -51,7 +53,7 @@ export async function generateMetadata({
       description,
       images: [project.media.cover],
     },
-  };
+  });
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
