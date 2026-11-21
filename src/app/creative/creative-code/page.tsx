@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Terminal, Clock, Monitor, Play } from "lucide-re
 import type { Metadata } from "next";
 
 import { routeMetadata } from "@/lib/metadata";
+import { assetPath } from "@/lib/paths";
 
 export const metadata: Metadata = routeMetadata("/creative/creative-code/", {
   title: "Creative Code Archive",

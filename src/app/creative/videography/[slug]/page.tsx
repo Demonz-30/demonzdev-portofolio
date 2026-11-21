@@ -5,6 +5,7 @@ import { ArrowLeft, Film, Info, Layers, Sliders } from "lucide-react";
 import type { Metadata } from "next";
 
 import { routeMetadata } from "@/lib/metadata";
+import { assetPath } from "@/lib/paths";
 
 export async function generateStaticParams() {
   return getVideographyWorks().map((work) => ({

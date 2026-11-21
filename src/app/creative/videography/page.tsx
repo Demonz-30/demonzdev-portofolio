@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Film, Play, Clock, Monitor } from "lucide-react"
 import type { Metadata } from "next";
 
 import { routeMetadata } from "@/lib/metadata";
+import { assetPath } from "@/lib/paths";
 
 export const metadata: Metadata = routeMetadata("/creative/videography/", {
   title: "Videography Archive",
