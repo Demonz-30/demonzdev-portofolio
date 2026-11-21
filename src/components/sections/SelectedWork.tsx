@@ -32,7 +32,7 @@ export function SelectedWork() {
         <div className="space-y-32 md:space-y-44">
           {featuredProjects.map((project, index) => {
             const isEven = index % 2 === 1;
-            const primaryVisual: string = project.media.cover || project.media.dashboardPreview || "";
+            const primaryVisual: string = project.media.coverWebp || project.media.cover || project.media.dashboardPreview || "";
             const accent = project.accentColor || "#7000FF";
             const isFlagship = index === 0;
             const isPortrait = project.media.orientation === "portrait";
