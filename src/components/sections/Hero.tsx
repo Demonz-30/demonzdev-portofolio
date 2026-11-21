@@ -6,8 +6,16 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TransitionLink } from "@/components/layout/PageTransition";
 import { content } from "@/data/content";
-import { DemonzLogo } from "@/components/canvas/DemonzLogo";
+import dynamic from "next/dynamic";
 import { HomepageVideoBackground } from "@/components/sections/HomepageVideoBackground";
+
+const DemonzLogo = dynamic(
+  () => import("@/components/canvas/DemonzLogo").then((mod) => mod.DemonzLogo),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 
 import { assetPath } from "@/lib/paths";
 gsap.registerPlugin(ScrollTrigger);

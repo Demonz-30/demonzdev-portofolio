@@ -140,6 +140,11 @@ export function Preloader() {
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const tl = gsap.timeline({
         onComplete: () => {
+          if (typeof window !== "undefined") {
+            try {
+              sessionStorage.setItem("demonz_boot_seen", "1");
+            } catch {}
+          }
           window.__demonz_boot_complete = true;
           window.dispatchEvent(new CustomEvent("demonz:boot-complete"));
           if (typeof document !== "undefined") {
@@ -155,6 +160,10 @@ export function Preloader() {
         },
       });
       masterTlRef.current = tl;
+
+      // Pacing optimization: maintain complete 6-phase sequence while providing snappy ~1.8s entrance
+      const alreadySeen = typeof window !== "undefined" && Boolean(sessionStorage.getItem("demonz_boot_seen"));
+      tl.timeScale(alreadySeen ? 14.0 : 6.8);
 
       // Progress tracker object for numerical counter
       const progressObj = { value: 0 };

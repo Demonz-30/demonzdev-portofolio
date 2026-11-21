@@ -74,14 +74,16 @@ export function HomepageVideoBackground() {
       <video
         ref={videoRef}
         className="absolute inset-y-[-5%] left-0 h-[110%] w-full object-cover opacity-20 md:opacity-25"
-        src={assetPath("/assets/videos/demonz-bg.mp4")}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
         tabIndex={-1}
-      />
+      >
+        <source src={assetPath("/assets/videos/demonz-bg.webm")} type="video/webm" />
+        <source src={assetPath("/assets/videos/demonz-bg.mp4")} type="video/mp4" />
+      </video>
       <div className="absolute inset-0 bg-black/75" />
     </div>
   );

@@ -169,14 +169,17 @@ export function Navigation() {
           >
             <video
               ref={logoVideoRef}
-              src={assetPath("/assets/videos/demonz-logo.mp4?v=2")}
               autoPlay
               muted
               loop
               playsInline
               controls={false}
-              className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-            />
+              poster={assetPath("/assets/brand/demonz-logo-animated.webp")}
+              className="object-contain w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            >
+              <source src={assetPath("/assets/videos/demonz-logo.webm")} type="video/webm" />
+              <source src={assetPath("/assets/videos/demonz-logo.mp4")} type="video/mp4" />
+            </video>
           </div>
           <span 
             ref={logoTextRef}

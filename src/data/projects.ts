@@ -414,8 +414,8 @@ export const projects: Project[] = [
     focus: ["Brand Identity", "Design System", "Editorial Design", "Typography"],
     stack: ["Brand Identity", "Design System", "Editorial Design", "Typography", "PMMI Collaboration"],
     media: {
-      cover: assetPath("/assets/photography/creative-multimedia.jpg"),
-      coverWebp: assetPath("/assets/photography/creative-multimedia.jpg"),
+      cover: assetPath("/assets/photography/creative-multimedia.webp"),
+      coverWebp: assetPath("/assets/photography/creative-multimedia.webp"),
       aspectRatio: "16/10",
       orientation: "landscape"
     },
@@ -465,8 +465,8 @@ export const projects: Project[] = [
     focus: ["Cinematography", "DaVinci Resolve", "Color Grading", "Editorial Photography"],
     stack: ["Cinematography", "DaVinci Resolve", "Color Grading", "Editorial Photography", "AI Upscaling"],
     media: {
-      cover: assetPath("/assets/photography/creative-multimedia.jpg"),
-      coverWebp: assetPath("/assets/photography/creative-multimedia.jpg"),
+      cover: assetPath("/assets/photography/creative-multimedia.webp"),
+      coverWebp: assetPath("/assets/photography/creative-multimedia.webp"),
       aspectRatio: "16/10",
       orientation: "landscape"
     },

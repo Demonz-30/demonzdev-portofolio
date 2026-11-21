@@ -32,7 +32,7 @@ export default function CreativeLandingPage() {
       icon: Camera,
       preview: {
         type: "image" as const,
-        src: assetPath("/assets/photography/Creative/fotografi/16,9.jpg"),
+        src: assetPath("/assets/photography/Creative/fotografi/16,9.webp"),
         alt: "Demonz Coffee Robusta Lampung Staging",
       },
     },
@@ -49,7 +49,8 @@ export default function CreativeLandingPage() {
       icon: Film,
       preview: {
         type: "video" as const,
-        src: assetPath("/assets/photography/Creative/video%20grafi/videpgrafi.mp4"),
+        src: assetPath("/assets/photography/Creative/video%20grafi/videpgrafi-teaser.mp4"),
+        poster: assetPath("/assets/photography/Creative/video%20grafi/videpgrafi-poster.webp"),
       },
     },
     {
@@ -65,7 +66,8 @@ export default function CreativeLandingPage() {
       icon: Terminal,
       preview: {
         type: "video" as const,
-        src: assetPath("/assets/photography/Creative/creative%20code/creative%20code.mp4"),
+        src: assetPath("/assets/photography/Creative/creative%20code/creative-code-teaser.mp4"),
+        poster: assetPath("/assets/photography/Creative/creative%20code/creative-code-poster.webp"),
       },
     },
   ];
@@ -168,10 +170,12 @@ export default function CreativeLandingPage() {
                       ) : (
                         <video
                           src={item.preview.src}
+                          poster={item.preview.poster}
                           autoPlay
                           loop
                           muted
                           playsInline
+                          preload="metadata"
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />
                       )}
