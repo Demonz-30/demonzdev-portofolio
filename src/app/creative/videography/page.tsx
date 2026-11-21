@@ -98,6 +98,7 @@ export default function VideographyArchivePage() {
               >
                 <video
                   src={work.video}
+                  poster={assetPath("/assets/photography/Creative/video%20grafi/videpgrafi-poster.webp")}
                   controls
                   playsInline
                   preload="metadata"

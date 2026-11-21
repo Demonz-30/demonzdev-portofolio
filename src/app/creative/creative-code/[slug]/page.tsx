@@ -88,11 +88,13 @@ export default async function CreativeCodeDetailPage({
             >
               <video
                 src={work.video}
+                poster={assetPath("/assets/photography/Creative/creative%20code/creative-code-poster.webp")}
                 controls
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="metadata"
                 className="w-full h-full object-contain"
               />
             </div>

@@ -88,10 +88,10 @@ export default async function VideographyDetailPage({
             >
               <video
                 src={work.video}
+                poster={assetPath("/assets/photography/Creative/video%20grafi/videpgrafi-poster.webp")}
                 controls
-                autoPlay
-                muted
                 playsInline
+                preload="metadata"
                 className="w-full h-full object-contain"
               />
             </div>
