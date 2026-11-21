@@ -5,18 +5,18 @@ export * from "./capabilities";
 
 export const content = {
   hero: {
-    title: "DEMONZ",
-    subtitle: "Creative Technologist & Entrepreneur",
-    message: "I build digital products, visual identities, multimedia content, and real-world businesses by combining technology, creativity, and entrepreneurial thinking.",
+    title: "DEMONZDEV",
+    subtitle: "Creative Technologist & Product Engineer",
+    message: "I engineer digital products, mobile applications, AI workflows, and multimedia systems where technical depth meets creative execution.",
   },
   about: {
     heading: "I create. I build. I experiment.",
     paragraphs: [
-      "I'm Demonz — a multidisciplinary creator, developer, designer, photographer, multimedia creator, and entrepreneur.",
-      "My work sits between technology, creativity, and business.",
-      "I enjoy turning ideas into something real — whether it's a website, application, brand, photograph, video, digital product, or business.",
-      "I don't limit myself to one discipline.",
-      "I learn, experiment, build, and create."
+      "I'm Muhammad Munir Alfaruq (DEMONZDEV) — a Creative Technologist and Product Engineer.",
+      "My work bridges software engineering, mobile systems, AI automation, and visual direction.",
+      "I build functional systems from ground-up architecture — whether it's an offline-first POS application, an AI-powered financial intelligence tool, an interactive 3D WebGL experience, or comprehensive brand guidelines.",
+      "I do not limit myself to shallow abstractions. I build with hands-on technical discipline, local persistence, and deliberate design craft.",
+      "I learn, experiment, build, and deliver."
     ]
   },
   whatIDo: allCapabilitiesWhatIDo,
@@ -31,12 +31,12 @@ export const content = {
   ],
   approach: {
     heading: "MY APPROACH",
-    tagline: "Learn → Experiment → Build → Improve",
+    tagline: "Learn → Experiment → Build → Deliver",
     steps: [
       { id: "01", title: "LEARN" },
       { id: "02", title: "EXPERIMENT" },
       { id: "03", title: "BUILD" },
-      { id: "04", title: "IMPROVE" }
+      { id: "04", title: "DELIVER" }
     ]
   },
   tools: [
@@ -45,22 +45,22 @@ export const content = {
   ],
   currentlyExploring: ["AI & AUTOMATION", "CREATIVE DEVELOPMENT", "MULTIMEDIA", "PRODUCT ARCHITECTURE"],
   philosophy: [
-    "Technology gives me the tools.",
-    "Creativity gives me the direction.",
-    "Business gives the idea a purpose."
+    "Technology provides the capability.",
+    "Creativity provides the direction.",
+    "Real-world utility provides the purpose."
   ],
   contact: {
-    instagram: "https://www.instagram.com/demonzdev",
-    email: "demonzdev01@gmail.com",
+    email: "muhammadmuniralfaruq@gmail.com",
     whatsapp: "https://wa.me/6289675210655",
     github: "https://github.com/Demonz-30",
-    linkedin: "https://www.linkedin.com/in/muhammad-munir-alfaruq-283b0b367"
+    linkedin: "https://www.linkedin.com/in/muhammad-munir-alfaruq-283b0b367/",
+    instagram: "https://www.instagram.com/demonzdev"
   },
   footer: {
-    brand: "DEMONZ",
-    tagline: "Creative Technologist & Entrepreneur",
-    categories: ["IT", "Design", "Photography", "Multimedia", "Business"],
+    brand: "DEMONZDEV",
+    tagline: "Creative Technologist & Product Engineer",
+    categories: ["Software Engineering", "AI Systems", "UI/UX", "Photography", "Videography", "Graphic Design"],
     message: "Building ideas into reality.",
-    copyright: "Demonz Development"
+    copyright: "DEMONZDEV"
   }
 };

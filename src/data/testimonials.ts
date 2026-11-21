@@ -1,39 +1,50 @@
-export interface Testimonial {
+export interface CollaborationRecord {
   id: string;
-  quote: string;
-  author: string;
+  context: string;
   role: string;
-  project: string;
-  isPlaceholder?: boolean;
+  organization: string;
+  deliverables: string[];
+  attribution: string;
 }
 
-export const testimonials: Testimonial[] = [
+export const institutionalCollaborations: CollaborationRecord[] = [
   {
-    id: "finora-collab",
-    quote:
-      "Engineered the core offline-first mobile architecture, biometric authentication, and multi-wallet balance synchronization for the Finora financial platform.",
-    author: "Finora Core Team",
-    role: "Engineering Collaboration",
-    project: "Finora Mobile System",
-    isPlaceholder: true,
+    id: "pmmi-collaboration",
+    context:
+      "Core media contribution, internal tool engineering, and visual branding during santri khidmah at Pondok Multimedia Munzalan Indonesia.",
+    role: "Internal Tooling & Media Creator",
+    organization: "Pondok Multimedia Munzalan Indonesia (PMMI)",
+    deliverables: [
+      "Kitchen Ledger: Offline-first dormitory kitchen POS & inventory system",
+      "PASKAS Bahagia: 98-page brand identity guideline & print system",
+      "Multimedia: Event documentary video production & photography",
+    ],
+    attribution: "Collaborative Santri Khidmah & Internal Operations",
   },
   {
-    id: "demonz-coffee-collab",
-    quote:
-      "Orchestrated brand identity, digital ordering touchpoints, and retail operations rollout, bridging creative art direction with commercial execution.",
-    author: "Demonz Coffee Stakeholders",
-    role: "Venture Partner",
-    project: "Demonz Coffee Brand & Retail",
-    isPlaceholder: true,
+    id: "sectors-hackathon",
+    context:
+      "Rapid prototyping and full-stack implementation for the Sectors AI Hackathon 2026, creating an Indonesian equity sentiment and outlier detection tool.",
+    role: "Full-Stack Engineer",
+    organization: "Sectors AI Hackathon 2026",
+    deliverables: [
+      "SignalLens: Next.js 15 App Router platform with AI analysis",
+      "Sectors Financial API integration for IDX market indicators",
+      "Structured evidence-first financial reporting pipeline",
+    ],
+    attribution: "Competition Engineering Submission",
   },
   {
-    id: "gizvana-collab",
-    quote:
-      "Designed and developed the high-performance gaming gear catalog, real-time inventory tracking, and checkout flows with responsive micro-interactions.",
-    author: "Gizvana Product Group",
-    role: "Product & UI Architecture",
-    project: "Gizvana E-Commerce Hub",
-    isPlaceholder: true,
+    id: "demonz-coffee-brand",
+    context:
+      "Real-world business venture integrating local Robusta coffee formulation, commercial product photography, and 3D web showcase.",
+    role: "Founder & Creative Technologist",
+    organization: "Demonz Coffee Venture",
+    deliverables: [
+      "Interactive 3D Three.js showcase at demonzcoffe.web.id",
+      "Packaging typography and brand identity assets",
+      "Commercial product photography & content distribution",
+    ],
+    attribution: "Independent Product & Business Venture",
   },
 ];
-

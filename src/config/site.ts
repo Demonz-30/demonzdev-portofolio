@@ -2,7 +2,7 @@
  * Site Configuration & Canonical URL Source of Truth
  * 
  * Supports dynamic configuration via environment variables:
- * - NEXT_PUBLIC_SITE_URL (e.g., https://demonzdev.com or https://demonz-portfolio.pages.dev)
+ * - NEXT_PUBLIC_SITE_URL (e.g., https://demonzdev.my.id or https://demonz-portfolio.pages.dev)
  * 
  * When migrating to a custom domain, update NEXT_PUBLIC_SITE_URL in the deployment
  * environment or update the fallback below.
@@ -28,10 +28,11 @@ export const siteConfig = {
   author: "DEMONZ",
   links: {
     github: "https://github.com/Demonz-30",
-    email: "demonzdev01@gmail.com",
+    email: "muhammadmuniralfaruq@gmail.com",
     instagram: "https://instagram.com/demonz.dev",
+    whatsapp: "https://wa.me/6289675210655",
+    linkedin: "https://www.linkedin.com/in/muhammad-munir-alfaruq-283b0b367/",
   },
 } as const;
 
 export type SiteConfig = typeof siteConfig;
-

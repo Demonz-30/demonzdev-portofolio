@@ -67,7 +67,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   const { caseStudy } = project;
   const image1 = project.media.dashboardPreview || project.media.mobileMockups?.[0] || project.media.cover;
   const image2 = project.media.mobileMockups?.[1];
-  const isLandscape = project.id === "gizvana" || (project.media.orientation === "landscape" && project.id !== "finora" && project.id !== "hyperassist" && project.id !== "jadwalku");
+  const isLandscape = project.media.orientation === "landscape";
 
   const caseStudyProjects = getCaseStudyProjects();
   const currentIndex = caseStudyProjects.findIndex((p) => p.id === project.id);
@@ -104,6 +104,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                   data-cursor="pointer"
                 >
                   <span>Visit Website</span>
+                  <ExternalLink size={12} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: project.accent }} />
+                </a>
+              )}
+              {project.links?.github && (
+                <a
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 border border-white/20 hover:border-white/40 bg-surface/80 hover:bg-surface rounded-full text-xs font-mono tracking-widest uppercase text-white transition-all duration-300 group shadow-lg"
+                  data-cursor="pointer"
+                >
+                  <span>View Repository</span>
                   <ExternalLink size={12} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: project.accent }} />
                 </a>
               )}
@@ -170,6 +182,20 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                     data-cursor="pointer"
                   >
                     <span>Visit Website</span>
+                    <ExternalLink size={14} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: project.accent }} />
+                  </a>
+                </div>
+              )}
+              {project.links?.github && (
+                <div className="mt-4">
+                  <a
+                    href={project.links.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 text-xs font-mono font-bold tracking-widest uppercase text-white bg-surface hover:bg-white/10 border border-white/20 hover:border-white/40 px-6 py-3.5 rounded-full transition-all duration-300 group shadow-lg"
+                    data-cursor="pointer"
+                  >
+                    <span>View Repository</span>
                     <ExternalLink size={14} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: project.accent }} />
                   </a>
                 </div>
