@@ -57,7 +57,11 @@ export interface Project {
     | "Production Ready"
     | "Active Development"
     | "Shipped"
-    | "Concept";
+    | "Concept"
+    | "Functional Prototype"
+    | "Hackathon Submission / Working Demo"
+    | "Advanced Functional Prototype"
+    | "Live Showcase";
   accentColor?: string;
   accent?: string;     // Preserved for backwards compatibility
   isApp?: boolean;     // Preserved for backwards compatibility
@@ -78,16 +82,16 @@ export const projects: Project[] = [
     title: "KITCHEN LEDGER",
     subtitle: "Offline-First Dormitory POS & Inventory System",
     tagline: "Offline-First Dormitory POS & Inventory System",
-    description: "Specialized offline-first accounting, point-of-sale, and inventory management application engineered for the dormitory kitchen of Pondok Multimedia Munzalan Indonesia (PMMI). Guarantees zero data loss with local SQLite persistence, thermal receipt printing, and daily financial reconciliation.",
+    description: "Specialized offline-first accounting, point-of-sale, and inventory management application prototype engineered for the dormitory kitchen of Pondok Multimedia Munzalan Indonesia (PMMI). Features client-side localStorage transactions, Capacitor filesystem receipt persistence, and PDF invoice generation.",
     category: "mobile-app",
     featured: true,
     year: "2026",
-    status: "Production Ready",
+    status: "Functional Prototype",
     accentColor: "#10b981",
     accent: "#10b981",
     isApp: true,
-    focus: ["Offline-First Systems", "Mobile Engineering", "Local Database", "Operational Tooling"],
-    stack: ["React 19", "Capacitor 8", "SQLite", "TypeScript", "Tailwind CSS"],
+    focus: ["Offline-First Systems", "Mobile Engineering", "Local Persistence", "Operational Utility"],
+    stack: ["React 19", "Capacitor 8", "Filesystem API", "TypeScript", "Tailwind CSS"],
     media: {
       cover: assetPath("/assets/projects/kitchen-ledger-hero.png"),
       dashboardPreview: assetPath("/assets/projects/kitchen-ledger-hero.png"),
@@ -98,33 +102,33 @@ export const projects: Project[] = [
       ]
     },
     caseStudy: {
-      overview: "Kitchen Ledger is a production-grade offline-first mobile accounting and kitchen ledger application engineered specifically for the internal dormitory kitchen of Pondok Multimedia Munzalan Indonesia (PMMI).",
-      problem: "Dormitory kitchen transactions and raw ingredient purchases occurred in areas with intermittent or zero internet connectivity. Paper logs led to calculation discrepancies, inventory waste, and delayed financial reporting.",
-      solution: "A high-performance hybrid mobile application utilizing Capacitor 8 and SQLite for immediate local persistence, atomic transaction logging, and real-time ledger generation without requiring continuous cloud connectivity.",
-      product: "An operational internal utility featuring POS order recording, raw material stock tracking, expense categorization, and daily reconciliation reports.",
+      overview: "Kitchen Ledger is an operational offline-first mobile accounting and kitchen ledger application prototype engineered specifically for the internal dormitory kitchen of Pondok Multimedia Munzalan Indonesia (PMMI).",
+      problem: "Dormitory kitchen transactions and raw ingredient purchases occurred in areas with intermittent or zero internet connectivity. Paper logs led to calculation discrepancies, inventory waste, and delayed expense reporting.",
+      solution: "A hybrid mobile application prototype utilizing Capacitor 8 and client-side localStorage for immediate data persistence, with @capacitor/filesystem storing receipt photos locally and jsPDF generating printable invoice documents without requiring continuous cloud connectivity.",
+      product: "An operational internal utility prototype featuring POS order recording, raw material stock tracking, expense categorization, and daily reconciliation reports.",
       design: "High-contrast dark UI optimized for rapid touch interaction in kitchen environments, featuring large numerical keys and glanceable financial totals.",
-      development: "Engineered with React 19, TypeScript, Capacitor 8 runtime, and native SQLite bindings ensuring strict ACID compliance for every ledger entry.",
-      technology: "React 19, Capacitor 8, SQLite, TypeScript, Tailwind CSS, Local Storage.",
-      architecture: "Local-first relational schema operating directly over embedded SQLite, synchronized with local exportable audit sheets.",
+      development: "Engineered with React 19, TypeScript, Capacitor 8 runtime, localStorage state synchronization, and native filesystem photo caching.",
+      technology: "React 19, Capacitor 8, Capacitor Filesystem, TypeScript, Tailwind CSS, Local Storage, jsPDF.",
+      architecture: "Local-first client architecture operating over localStorage state and native filesystem photo storage, with exportable JSZip backup archives.",
       keyFeatures: [
         "Zero-latency Offline Transaction Logging",
         "Dormitory Meal & Raw Ingredient Inventory",
         "Daily Cash Balance & Expense Reconciliation",
-        "ESC/POS Bluetooth Thermal Receipt Output",
-        "Strict Local SQLite Data Persistence"
+        "Client-side PDF Invoice Generation",
+        "Local Filesystem Receipt Photo Persistence"
       ],
       features: [
         "Zero-latency Offline Transaction Logging",
         "Dormitory Meal & Raw Ingredient Inventory",
         "Daily Cash Balance & Expense Reconciliation",
-        "ESC/POS Bluetooth Thermal Receipt Output",
-        "Strict Local SQLite Data Persistence"
+        "Client-side PDF Invoice Generation",
+        "Local Filesystem Receipt Photo Persistence"
       ],
       technologies: {
         mobile: ["Capacitor 8", "React 19", "TypeScript"],
-        backend: ["SQLite", "Local File Storage"]
+        backend: ["LocalStorage", "@capacitor/filesystem", "jsPDF"]
       },
-      status: "Production Ready"
+      status: "Functional Prototype"
     }
   },
   {
@@ -132,11 +136,11 @@ export const projects: Project[] = [
     title: "SIGNALLENS",
     subtitle: "Indonesian Market Financial Intelligence & Sentiment Engine",
     tagline: "Indonesian Market Financial Intelligence & Sentiment Engine",
-    description: "Financial analysis platform and agentic investigation system engineered for the Sectors AI Hackathon 2026. Audits Indonesian IDX listed companies through deep quantitative metrics and real-time sentiment extraction.",
+    description: "Financial analysis platform and agentic investigation system engineered as a competition submission for the Sectors AI Hackathon 2026. Audits Indonesian IDX listed companies through deep quantitative metrics and real-time sentiment extraction.",
     category: "web-platform",
     featured: true,
     year: "2026",
-    status: "Shipped",
+    status: "Hackathon Submission / Working Demo",
     accentColor: "#3b82f6",
     accent: "#3b82f6",
     isApp: false,
@@ -149,13 +153,13 @@ export const projects: Project[] = [
       orientation: "landscape"
     },
     links: {
-      github: "https://github.com/Demonz-30/sectors-hackathon-2026"
+      github: "https://github.com/Demonz-30/signallens"
     },
     caseStudy: {
-      overview: "SignalLens is a specialized market intelligence platform developed for the Sectors AI Hackathon 2026, combining real-time IDX sector performance metrics with structured AI sentiment evaluation.",
+      overview: "SignalLens is a specialized market intelligence platform engineered as a competition submission for the Sectors AI Hackathon 2026, combining real-time IDX sector performance metrics with structured AI sentiment evaluation.",
       problem: "Retail investors and researchers struggle to synthesize disparate financial reports, quarterly filings, and corporate sentiment across hundreds of IDX listed equities.",
       solution: "An automated evidence-first investigation pipeline that connects directly to the Sectors Financial API, ingesting balance sheet ratios and evaluating corporate sentiment with LLM reasoning.",
-      product: "A web dashboard featuring sector anomaly detection, company deep-dives, and automated falsification checks against market hype.",
+      product: "A working hackathon demo featuring sector anomaly detection, company deep-dives, and automated falsification checks against market hype.",
       design: "Terminal-grade dark aesthetic emphasizing data legibility, responsive charts, and dense financial indicators.",
       development: "Built with Next.js 15 App Router, React 19, TypeScript, and server-side API integration caching Sectors API endpoints for low-latency queries.",
       technology: "Next.js 15, React 19, TypeScript, Sectors API, OpenAI API, Tailwind CSS.",
@@ -178,7 +182,7 @@ export const projects: Project[] = [
         frontend: ["Next.js 15", "React 19", "Tailwind CSS"],
         backend: ["Sectors API", "OpenAI API", "TypeScript Server Actions"]
       },
-      status: "Shipped"
+      status: "Hackathon Submission / Working Demo"
     }
   },
   {
@@ -186,11 +190,11 @@ export const projects: Project[] = [
     title: "XEMON VOICE COMMAND",
     subtitle: "System-Level Android Voice Automation Assistant",
     tagline: "System-Level Android Voice Automation Assistant",
-    description: "System-level Android voice automation assistant featuring an overlay floating service, speech recognition, and Python NLP task processing for hands-free device management.",
+    description: "Advanced system-level Android voice automation assistant prototype featuring an overlay floating service, speech recognition, and Python NLP task processing for hands-free device management.",
     category: "ai-system",
     featured: true,
     year: "2026",
-    status: "Shipped",
+    status: "Advanced Functional Prototype",
     accentColor: "#8b5cf6",
     accent: "#8b5cf6",
     isApp: true,
@@ -203,10 +207,10 @@ export const projects: Project[] = [
       orientation: "landscape"
     },
     caseStudy: {
-      overview: "Xemon Voice Command is an Android system automation tool engineered to enable hands-free voice command execution over device functions using an active floating bubble interface.",
+      overview: "Xemon Voice Command is an advanced functional Android prototype engineered to enable hands-free voice command execution over device functions using an active floating bubble interface.",
       problem: "Standard mobile voice assistants often require cloud lock-in, have high latency, and lack deep integration with local developer automation scripts.",
       solution: "A native Kotlin foreground service featuring an accessible overlay window, connected via local WebSockets to a lightweight Python NLP server for custom intent classification.",
-      product: "An overlay utility that stays accessible over any Android app, capturing voice inputs and translating them into direct system actions.",
+      product: "A verified system automation prototype that operates over any Android app, capturing voice inputs and translating them into direct system actions via AccessibilityService.",
       design: "Minimal floating bubble UI designed to minimize screen occlusion while giving immediate visual feedback during audio capture.",
       development: "Developed using Android Kotlin, AccessibilityService APIs, and background Foreground Service life-cycle management.",
       technology: "Android Kotlin, AccessibilityService, Foreground Service, Python NLP, SpeechRecognition.",
@@ -229,7 +233,7 @@ export const projects: Project[] = [
         mobile: ["Android Kotlin", "AccessibilityService"],
         backend: ["Python NLP", "WebSockets"]
       },
-      status: "Shipped"
+      status: "Advanced Functional Prototype"
     }
   },
   {
@@ -343,18 +347,18 @@ export const projects: Project[] = [
   {
     id: "demonz-coffee",
     title: "DEMONZ COFFEE",
-    subtitle: "3D Interactive Brand & Artisan Coffee Showcase",
-    tagline: "3D Interactive Brand & Artisan Coffee Showcase",
-    description: "Real-world commercial coffee brand featuring an interactive 3D WebGL digital showcase, product development, packaging design, and commercial food photography.",
+    subtitle: "Artisan Coffee Brand & Live Digital Showcase",
+    tagline: "Artisan Coffee Brand & Live Digital Showcase",
+    description: "Artisan coffee brand and live digital ordering showcase at demonzcoffe.web.id, combining Lampung Robusta bean formulation, packaging typography, commercial photography, and direct-to-consumer Shopee and WhatsApp ordering.",
     category: "brand-business",
     featured: false,
     year: "2026",
-    status: "Active Development",
+    status: "Live Showcase",
     accentColor: "#f59e0b",
     accent: "#f59e0b",
     isApp: false,
-    focus: ["Three.js WebGL", "Brand Identity", "Commercial Photography", "E-Commerce"],
-    stack: ["Three.js", "WebGL", "Brand Architecture", "Commercial Photography", "E-Commerce"],
+    focus: ["Brand Architecture", "Commercial Photography", "E-Commerce Integration", "Web Presence"],
+    stack: ["HTML5 / CSS3", "JavaScript", "Brand Architecture", "Commercial Photography", "E-Commerce"],
     media: {
       cover: assetPath("/assets/photography/demonz-coffee.webp"),
       coverWebp: assetPath("/assets/photography/demonz-coffee.webp"),
@@ -365,33 +369,33 @@ export const projects: Project[] = [
       live: "https://demonzcoffe.web.id"
     },
     caseStudy: {
-      overview: "Demonz Coffee is a real-world commercial coffee venture originating in Lampung, integrating bean roast formulation, packaging typography, commercial photography, and an interactive 3D WebGL digital experience.",
-      problem: "Artisan coffee ventures require strong visual differentiation to convey bean quality and craft across digital channels.",
-      solution: "An immersive digital showcase featuring real-time 3D can rendering, interactive lighting controls, and high-resolution product photography.",
-      product: "A live web showcase at demonzcoffe.web.id combined with physical packaging and marketing assets.",
+      overview: "Demonz Coffee is a live artisanal coffee brand and web showcase originating in Lampung, integrating bean roast formulation, packaging typography, commercial photography, and an active web ordering presence.",
+      problem: "Artisan coffee ventures require strong visual differentiation and low-friction purchasing channels to convey bean quality and serve direct consumers.",
+      solution: "A responsive digital showcase featuring high-resolution product photography, structured brand storytelling, direct WhatsApp ordering, and Shopee checkout integration, with Three.js WebGL canvas experiments explored in development.",
+      product: "A live production website at demonzcoffe.web.id integrated with physical packaging and direct customer ordering channels.",
       design: "Tactile, warm visual palette combining rich coffee hues, structured grotesque typography, and minimalist product framing.",
-      development: "Developed with Three.js, vanilla WebGL shaders, responsive CSS layout, and optimized assets for smooth 60fps rendering.",
-      technology: "Three.js, WebGL, JavaScript, HTML5/CSS3, Commercial Food Photography.",
-      architecture: "Lightweight single-page WebGL canvas with procedural animation controls and direct ordering integrations.",
+      development: "Developed with responsive HTML5/CSS3 and JavaScript, with Three.js 3D WebGL staging explored in code history.",
+      technology: "JavaScript, HTML5/CSS3, Commercial Food Photography, E-Commerce Integration, Three.js (Development Experiment).",
+      architecture: "Static web storefront with direct Shopee marketplace checkout and interactive WhatsApp order generation.",
       keyFeatures: [
-        "Interactive 360° 3D Coffee Can Model",
-        "Realtime WebGL Lighting & Reflection",
         "Original Lampung Robusta Bean Formulation",
         "High-resolution Commercial Product Photography",
-        "Integrated Direct Customer Ordering"
+        "Direct Shopee & WhatsApp Customer Ordering",
+        "Brand Identity & Tactile Packaging Design",
+        "Three.js 3D WebGL Staging & Experiments"
       ],
       features: [
-        "Interactive 360° 3D Coffee Can Model",
-        "Realtime WebGL Lighting & Reflection",
         "Original Lampung Robusta Bean Formulation",
         "High-resolution Commercial Product Photography",
-        "Integrated Direct Customer Ordering"
+        "Direct Shopee & WhatsApp Customer Ordering",
+        "Brand Identity & Tactile Packaging Design",
+        "Three.js 3D WebGL Staging & Experiments"
       ],
       technologies: {
-        frontend: ["Three.js", "WebGL", "JavaScript"],
-        backend: ["Content Strategy", "Brand Architecture"]
+        frontend: ["HTML5", "CSS3", "JavaScript", "Three.js (Dev Experiment)"],
+        backend: ["Shopee Storefront", "WhatsApp API"]
       },
-      status: "Active Development / Live"
+      status: "Live Showcase"
     }
   },
   {

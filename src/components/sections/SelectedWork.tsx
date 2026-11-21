@@ -63,7 +63,7 @@ export function SelectedWork() {
                         backgroundColor: `${accent}${isFlagship ? "15" : "10"}` 
                       }}
                     >
-                      {isFlagship ? "Flagship Product" : project.status}
+                      {project.status}
                     </span>
                     <span className="text-xs font-mono text-white/40 uppercase">
                       {project.year}
@@ -188,7 +188,7 @@ export function SelectedWork() {
                     {/* Subtle status caption indicator */}
                     <div className="absolute bottom-4 right-6 hidden sm:flex items-center gap-2 text-[10px] font-mono text-white/30 uppercase tracking-widest">
                       <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accent }} />
-                      <span>{isFlagship ? "Flagship Mobile Application" : project.category}</span>
+                      <span>{project.category}</span>
                     </div>
                   </TransitionLink>
                 </div>

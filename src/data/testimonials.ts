@@ -15,7 +15,7 @@ export const institutionalCollaborations: CollaborationRecord[] = [
     role: "Internal Tooling & Media Creator",
     organization: "Pondok Multimedia Munzalan Indonesia (PMMI)",
     deliverables: [
-      "Kitchen Ledger: Offline-first dormitory kitchen POS & inventory system",
+      "Kitchen Ledger: Offline-first dormitory kitchen POS & inventory prototype",
       "PASKAS Bahagia: 98-page brand identity guideline & print system",
       "Multimedia: Event documentary video production & photography",
     ],
@@ -28,7 +28,7 @@ export const institutionalCollaborations: CollaborationRecord[] = [
     role: "Full-Stack Engineer",
     organization: "Sectors AI Hackathon 2026",
     deliverables: [
-      "SignalLens: Next.js 15 App Router platform with AI analysis",
+      "SignalLens: Next.js 15 App Router platform with AI analysis (Hackathon Submission)",
       "Sectors Financial API integration for IDX market indicators",
       "Structured evidence-first financial reporting pipeline",
     ],
@@ -41,7 +41,7 @@ export const institutionalCollaborations: CollaborationRecord[] = [
     role: "Founder & Creative Technologist",
     organization: "Demonz Coffee Venture",
     deliverables: [
-      "Interactive 3D Three.js showcase at demonzcoffe.web.id",
+      "Live web storefront at demonzcoffe.web.id with Shopee & WhatsApp ordering",
       "Packaging typography and brand identity assets",
       "Commercial product photography & content distribution",
     ],

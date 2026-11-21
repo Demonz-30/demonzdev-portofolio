@@ -41,7 +41,7 @@ export const content = {
   },
   tools: [
     "TypeScript", "React", "Next.js", "Kotlin", "Flutter", "Python", 
-    "Three.js", "Tailwind CSS", "Firebase", "SQLite", "Figma", "Git & GitHub"
+    "Three.js", "Tailwind CSS", "Firebase", "Capacitor", "Figma", "Git & GitHub"
   ],
   currentlyExploring: ["AI & AUTOMATION", "CREATIVE DEVELOPMENT", "MULTIMEDIA", "PRODUCT ARCHITECTURE"],
   philosophy: [

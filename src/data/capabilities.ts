@@ -50,7 +50,7 @@ export const primaryCapabilities: PrimaryCapability[] = [
     id: "02",
     title: "MOBILE & SYSTEMS",
     tagline: "Native & Cross-Platform Mobile",
-    description: "Building production-grade mobile applications with offline-first local persistence, background synchronization, and realtime datastores.",
+    description: "Building responsive mobile applications with offline-first local persistence, background synchronization, and realtime datastores.",
     technologies: [
       "Android SDK",
       "Kotlin",
