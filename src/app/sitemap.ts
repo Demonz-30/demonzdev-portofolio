@@ -4,6 +4,7 @@ import { getCaseStudyProjects } from "@/data/projects";
 import {
   getPhotographyWorks,
   getVideographyWorks,
+  getGraphicDesignWorks,
   getCreativeCodeWorks,
 } from "@/data/creative";
 
@@ -52,6 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/creative/graphic-design`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/creative/creative-code`,
       lastModified: currentDate,
       changeFrequency: "monthly",
@@ -95,6 +102,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
+  // Graphic Design Works
+  const graphicDesignRoutes: MetadataRoute.Sitemap = getGraphicDesignWorks().map((work) => ({
+    url: `${baseUrl}/creative/graphic-design/${work.slug}`,
+    lastModified: currentDate,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
   // Creative Code Works
   const creativeCodeRoutes: MetadataRoute.Sitemap = getCreativeCodeWorks().map((work) => ({
     url: `${baseUrl}/creative/creative-code/${work.slug}`,
@@ -108,6 +123,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...caseStudyRoutes,
     ...photographyRoutes,
     ...videographyRoutes,
+    ...graphicDesignRoutes,
     ...creativeCodeRoutes,
   ];
 }

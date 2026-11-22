@@ -1,6 +1,6 @@
 import { TransitionLink } from "@/components/layout/PageTransition";
 import Image from "next/image";
-import { ArrowRight, Camera, Film, Terminal } from "lucide-react";
+import { ArrowRight, Camera, Film, Palette, Terminal } from "lucide-react";
 import type { Metadata } from "next";
 
 import { assetPath } from "@/lib/paths";
@@ -9,11 +9,11 @@ import { routeMetadata } from "@/lib/metadata";
 export const metadata: Metadata = routeMetadata("/creative/", {
   title: "Creative Directory",
   description:
-    "Discipline-based creative directory spanning Photography, Videography, and Creative Code by DEMONZDEV.",
+    "Discipline-based creative directory spanning Photography, Videography, Graphic Design, and Creative Code by DEMONZDEV.",
   openGraph: {
     title: "Creative Directory | DEMONZDEV",
     description:
-      "Discipline-based creative directory spanning Photography, Videography, and Creative Code by DEMONZDEV.",
+      "Discipline-based creative directory spanning Photography, Videography, Graphic Design, and Creative Code by DEMONZDEV.",
   },
 });
 
@@ -54,8 +54,25 @@ export default function CreativeLandingPage() {
       },
     },
     {
-      id: "creative-code",
+      id: "graphic-design",
       number: "03",
+      title: "GRAPHIC DESIGN",
+      subtitle: "Publication Systems, Swiss Posters & Large-Format Print",
+      description:
+        "Curated visual communication deliverables spanning community event publication design, educational workshop posters, experimental Swiss geometric systems, and 1024×4128 print banners.",
+      count: "04 Works",
+      tag: "Print & Publication",
+      href: "/creative/graphic-design",
+      icon: Palette,
+      preview: {
+        type: "image" as const,
+        src: assetPath("/assets/photography/Creative/graphic-design/masjid-arroyan-kajian-poster.webp"),
+        alt: "Masjid Arroyan Kajian Event Poster Preview",
+      },
+    },
+    {
+      id: "creative-code",
+      number: "04",
       title: "CREATIVE CODE",
       subtitle: "Generative Systems & Interactive Visuals",
       description:
@@ -87,10 +104,10 @@ export default function CreativeLandingPage() {
           </div>
           <div className="max-w-md space-y-3">
             <p className="text-sm md:text-base text-zinc-400 font-light leading-relaxed">
-              A structured directory organized into three distinct creative disciplines: lens-based photography, motion videography, and computational code.
+              A structured directory organized into four distinct creative disciplines: lens-based photography, motion videography, print &amp; publication design, and computational code.
             </p>
             <div className="flex items-center gap-3 text-xs font-mono text-zinc-500 uppercase">
-              <span>03 Disciplines</span>
+              <span>04 Disciplines</span>
               <span>•</span>
               <span>Select Category To Explore</span>
             </div>
@@ -98,7 +115,7 @@ export default function CreativeLandingPage() {
         </div>
       </div>
 
-      {/* 3 Discipline Directory Cards */}
+      {/* 4 Discipline Directory Cards */}
       <div className="max-w-6xl mx-auto space-y-12 md:space-y-16">
         {disciplines.map((item) => {
           const Icon = item.icon;
@@ -195,7 +212,7 @@ export default function CreativeLandingPage() {
       {/* Continuity Footer */}
       <div className="max-w-6xl mx-auto mt-32 pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-mono">
         <span className="text-zinc-500 uppercase tracking-wider">
-          DEMONZ Visual Architecture // 3 Categories Active
+          DEMONZ Visual Architecture // 4 Categories Active &amp; Verified
         </span>
         <TransitionLink
           href="/work"

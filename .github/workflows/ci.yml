@@ -3,6 +3,8 @@ name: Isolated Linux CI Verification
 on:
   push:
     branches:
+      - master
+      - security/**
       - refactor/recruiter-ready-finalization
   pull_request:
     branches:
@@ -21,13 +23,15 @@ jobs:
     name: Linux Production Build & Static Export Verification
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: 22
           cache: npm
@@ -54,12 +58,17 @@ jobs:
           test -f out/work/signallens/index.html || { echo "ERROR: 'out/work/signallens/index.html' missing"; exit 1; }
           test -f out/work/xemon-voice-command/index.html || { echo "ERROR: 'out/work/xemon-voice-command/index.html' missing"; exit 1; }
           test -f out/work/demonz-coffee/index.html || { echo "ERROR: 'out/work/demonz-coffee/index.html' missing"; exit 1; }
+          test -f out/creative/index.html || { echo "ERROR: 'out/creative/index.html' missing"; exit 1; }
+          test -f out/creative/photography/index.html || { echo "ERROR: 'out/creative/photography/index.html' missing"; exit 1; }
+          test -f out/creative/videography/index.html || { echo "ERROR: 'out/creative/videography/index.html' missing"; exit 1; }
+          test -f out/creative/graphic-design/index.html || { echo "ERROR: 'out/creative/graphic-design/index.html' missing"; exit 1; }
+          test -f out/creative/creative-code/index.html || { echo "ERROR: 'out/creative/creative-code/index.html' missing"; exit 1; }
           test -f out/assets/projects/kitchen-ledger-hero.png || { echo "ERROR: 'out/assets/projects/kitchen-ledger-hero.png' missing"; exit 1; }
           test -f out/404.html || { echo "ERROR: 'out/404.html' missing"; exit 1; }
           echo "SUCCESS: Static export structure verified successfully."
 
       - name: Upload static export artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         with:
           name: static-export-verification
           path: out

@@ -37,7 +37,7 @@ export default function CreativeCodeArchivePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <span className="text-xs font-mono tracking-widest text-brand-purple-light uppercase mb-4 block">
-              03 // COMPUTATIONAL DISCIPLINE
+              04 // COMPUTATIONAL DISCIPLINE
             </span>
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white uppercase">
               CREATIVE CODE

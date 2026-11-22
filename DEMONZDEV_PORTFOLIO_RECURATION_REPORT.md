@@ -18,7 +18,7 @@ Before curating additional materials, an exhaustive inventory of the production 
 | `signallens` | `/work/signallens` | AI / Financial Intel | `Hackathon Submission / Working Demo` | `Demonz-30/signallens` |
 | `xemon-voice-command` | `/work/xemon-voice-command`| AI Voice / Edge R&D | `Advanced Functional Prototype` | `Demonz-30/xemon-voice-command` |
 | `finora` | `/work/finora` | FinTech Concept / UX | `Hackathon Finalist` | `Demonz-30/FINORA` |
-| `hyperassist` | `/work/hyperassist` | Productivity Utility | `Production Application` | Drive PRD v1.2 & Flutter Prototype |
+| `hyperassist` | `/work/hyperassist` | Productivity Utility | `Concept / PRD v1.2` | Drive PRD v1.2 & Flutter Prototype |
 | `demonz-coffee` | `/work/demonz-coffee` | Creative 3D Web | `Live Showcase` | `Demonz-30/demonz-coffee-website` |
 | `paskas-brand-system` | `/work/paskas-brand-system`| Brand Identity / Design | `Design System` | Drive PASKAS Brand Manual (98-Page PDF) |
 | `creative-multimedia` | `/work/creative-multimedia`| Lens & Motion Archive | `Production Archive` | Drive 02_CREATIVE_WORK Masters |

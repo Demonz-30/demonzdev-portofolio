@@ -89,6 +89,36 @@ export interface CreativeCodeWork {
   };
 }
 
+export interface GraphicDesignWork {
+  id: string;
+  slug: string;
+  number: string;
+  title: string;
+  category: string;
+  tagline: string;
+  shortIntro: string;
+  description: string;
+  image: string;
+  width: number;
+  height: number;
+  aspectRatio: string;
+  orientation: "landscape" | "portrait";
+  year: string;
+  role: string;
+  tools: string[];
+  visualDetails: {
+    composition: string;
+    typography: string;
+    colorPalette: string;
+  };
+  technicalDetails: {
+    dimensions: string;
+    format: string;
+    medium: string;
+    provenance?: string;
+  };
+}
+
 export const photographyWorks: PhotographyWork[] = [
   {
     id: "robusta-lampung-composition",
@@ -695,6 +725,122 @@ export const creativeCodeWorks: CreativeCodeWork[] = [
   }
 ];
 
+export const graphicDesignWorks: GraphicDesignWork[] = [
+  {
+    id: "masjid-arroyan-kajian-poster",
+    slug: "masjid-arroyan-kajian-poster",
+    number: "01",
+    title: "MASJID ARROYAN KAJIAN POSTER",
+    category: "Community Publication & Event Design",
+    tagline: "Islamic Event Typographic Structure & Arabic Calligraphy Accents",
+    shortIntro: "High-contrast announcement poster for community study gatherings at Masjid Arroyan, integrating clean Arabic calligraphy with modern typographic hierarchy.",
+    description: "An architectural publication design balancing traditional Islamic motifs with contemporary event branding. Built with high-legibility typographic blocks, subtle geometric framing, and calibrated warm ambient lighting.",
+    image: assetPath("/assets/photography/Creative/graphic-design/masjid-arroyan-kajian-poster.webp"),
+    width: 1024,
+    height: 1535,
+    aspectRatio: "1024/1535",
+    orientation: "portrait",
+    year: "2026",
+    role: "Graphic Designer / Visual Communication",
+    tools: ["Adobe Photoshop", "Adobe Illustrator", "Arabic Typography", "Print CMYK Pre-press"],
+    visualDetails: {
+      composition: "Vertical 2:3 ratio with centered typographic anchor and balanced Islamic arches",
+      typography: "High-contrast sans-serif event titling paired with traditional calligraphic glyphs",
+      colorPalette: "Warm ambient gold and emerald accents anchored on deep slate black"
+    },
+    technicalDetails: {
+      dimensions: "1024 × 1535 px (Print Master: A3 / A4)",
+      format: "WebP (Q85) / Master PNG 2.1 MB",
+      medium: "Digital Publication & Physical Print"
+    }
+  },
+  {
+    id: "athifanisa-class-poster",
+    slug: "athifanisa-class-poster",
+    number: "02",
+    title: "ATHIFANISA COMMERCIAL CLASS POSTER",
+    category: "Commercial Event Marketing",
+    tagline: "Educational Workshop Staging & Promotional Brand Palette",
+    shortIntro: "High-resolution promotional marketing poster designed for educational workshops, establishing brand presence through clear visual hierarchy and commercial color staging.",
+    description: "Commercial event marketing artwork tailored for educational workshops and skill development programs. Features deliberate space allocation for speaker profiles, agenda timelines, and registration pathways.",
+    image: assetPath("/assets/photography/Creative/graphic-design/athifanisa-class-poster.webp"),
+    width: 1414,
+    height: 2000,
+    aspectRatio: "1414/2000",
+    orientation: "portrait",
+    year: "2026",
+    role: "Commercial Visual Designer",
+    tools: ["Adobe Illustrator", "Vector Illustration", "Commercial Layout", "Color Balancing"],
+    visualDetails: {
+      composition: "Multi-tier commercial hierarchy prioritizing course outcomes and attendee value",
+      typography: "Geometric grotesque headline system supported by tabular agenda details",
+      colorPalette: "Vibrant brand accents with high-contrast text legibility"
+    },
+    technicalDetails: {
+      dimensions: "1414 × 2000 px (Commercial B2 / A2 Format)",
+      format: "WebP (Q85) / Master PNG 2.9 MB",
+      medium: "Commercial Digital Campaign & Poster Print"
+    }
+  },
+  {
+    id: "geometrik-tipografi-c2pa-poster",
+    slug: "geometrik-tipografi-c2pa-poster",
+    number: "03",
+    title: "GEOMETRIK & TIPOGRAFI C2PA POSTER",
+    category: "Editorial & Provenance Design",
+    tagline: "Algorithmic Geometry, Swiss Typography & Digital Provenance",
+    shortIntro: "Precision typography and geometric poster study incorporating modern C2PA digital provenance framing and asymmetric grid systems.",
+    description: "An experimental exploration of international typographic style and computational geometry. Investigates how digital content credentials and provenance metadata can be integrated directly into poster art.",
+    image: assetPath("/assets/photography/Creative/graphic-design/geometrik-tipografi-c2pa-poster.webp"),
+    width: 1024,
+    height: 1536,
+    aspectRatio: "1024/1536",
+    orientation: "portrait",
+    year: "2026",
+    role: "Editorial & Typography Designer",
+    tools: ["Adobe Illustrator", "Swiss Grid Systems", "C2PA Provenance Framing", "Typography Hierarchy"],
+    visualDetails: {
+      composition: "Asymmetric Swiss grid layout with mathematical geometric modules",
+      typography: "Rationalist modernist type system with dynamic tracking and weights",
+      colorPalette: "Monochrome grayscale with controlled cyan highlight indicators"
+    },
+    technicalDetails: {
+      dimensions: "1024 × 1536 px (Editorial Master Format)",
+      format: "WebP (Q85) / Master PNG 2.3 MB",
+      medium: "Editorial Print & Digital Design Exhibition",
+      provenance: "C2PA Verified Digital Provenance"
+    }
+  },
+  {
+    id: "umbul-umbul-paskas-varian-d",
+    slug: "umbul-umbul-paskas-varian-d",
+    number: "04",
+    title: "PASKAS BAHAGIA UMBUL-UMBUL BANNER",
+    category: "Large-Format Print & Event Identity",
+    tagline: "Street-Visibility Vertical Banner (Approved Varian D)",
+    shortIntro: "Vertical large-format 1024×4128 event banner engineered for street visibility and wind flutter readability, verified as the final print-ready production release Varian D.",
+    description: "Large-format outdoor banner designed for streetlamp and event perimeter installation during PASKAS Bahagia community initiatives. Formatted in extreme vertical 1:4 aspect ratio with high-visibility color zoning and collaborative PMMI media team attribution.",
+    image: assetPath("/assets/photography/Creative/graphic-design/umbul-umbul-paskas-varian-d.webp"),
+    width: 1024,
+    height: 4128,
+    aspectRatio: "1024/4128",
+    orientation: "portrait",
+    year: "2026",
+    role: "Publication & Print Designer (PMMI Media Team Collaboration)",
+    tools: ["Adobe Illustrator", "Large-Format Vector", "Print CMYK Pre-press", "Vertical Typography"],
+    visualDetails: {
+      composition: "1:4 extreme vertical banner with stacked optical anchors for distance viewing",
+      typography: "Bold condensed display typography readable at vehicle approach speeds",
+      colorPalette: "High-contrast community identity palette with bright warning accents"
+    },
+    technicalDetails: {
+      dimensions: "1024 × 4128 px (Physical Scale: 0.8m × 3.2m Street Banner)",
+      format: "WebP (Q85) / Master TIFF & JPEG 972 KB",
+      medium: "Outdoor Large-Format Fabric & Vinyl Banner"
+    }
+  }
+];
+
 // Accessors for Photography
 export function getPhotographyWorks(): PhotographyWork[] {
   return photographyWorks;
@@ -711,6 +857,15 @@ export function getVideographyWorks(): VideographyWork[] {
 
 export function getVideographyWorkBySlug(slug: string): VideographyWork | undefined {
   return videographyWorks.find((work) => work.slug === slug);
+}
+
+// Accessors for Graphic Design
+export function getGraphicDesignWorks(): GraphicDesignWork[] {
+  return graphicDesignWorks;
+}
+
+export function getGraphicDesignWorkBySlug(slug: string): GraphicDesignWork | undefined {
+  return graphicDesignWorks.find((work) => work.slug === slug);
 }
 
 // Accessors for Creative Code

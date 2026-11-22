@@ -157,10 +157,10 @@ export default function VideographyArchivePage() {
           <span>Return to Creative Directory</span>
         </TransitionLink>
         <TransitionLink
-          href="/creative/creative-code"
+          href="/creative/graphic-design"
           className="text-brand-purple-light hover:text-white transition-colors uppercase tracking-widest font-bold flex items-center gap-2"
         >
-          <span>Explore Creative Code</span>
+          <span>Explore Graphic Design</span>
           <span>→</span>
         </TransitionLink>
       </div>
