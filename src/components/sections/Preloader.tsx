@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useLenis } from "lenis/react";
 
 import { assetPath } from "@/lib/paths";
+
 declare global {
   interface Window {
     __demonz_boot_revealed?: boolean;
@@ -21,6 +22,22 @@ const PHASES = [
   { text: "BUILDING EDITORIAL INTERFACE...", sub: "COMPOSITION // FINALIZING VIEW", pct: 98 },
   { text: "SYSTEM READY.", sub: "DEMONZDEV // LAUNCHING EXPERIENCE", pct: 100 },
 ];
+
+function getSessionBootSeen(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return Boolean(window.sessionStorage?.getItem("demonz_boot_seen"));
+  } catch {
+    return false;
+  }
+}
+
+function setSessionBootSeen(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage?.setItem("demonz_boot_seen", "1");
+  } catch {}
+}
 
 export function Preloader() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,36 +55,86 @@ export function Preloader() {
   const quadRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const [complete, setComplete] = useState(false);
+  const isCompleteRef = useRef(false);
   const masterTlRef = useRef<gsap.core.Timeline | null>(null);
   const isFastForwardingRef = useRef(false);
+  const safetyTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Decouple Lenis from main effect dependencies to avoid recreation loops
   const lenis = useLenis();
+  const lenisRef = useRef(lenis);
+
+  // Separate listener to pause Lenis when it resolves without re-triggering Preloader effect
+  useEffect(() => {
+    lenisRef.current = lenis;
+    if (lenis && !isCompleteRef.current) {
+      lenis.stop();
+    }
+  }, [lenis]);
+
+  // Unified, safe, idempotent dismissal handler
+  const dismissPreloader = useCallback(() => {
+    if (isCompleteRef.current) return;
+    isCompleteRef.current = true;
+
+    if (safetyTimerRef.current) {
+      clearTimeout(safetyTimerRef.current);
+      safetyTimerRef.current = null;
+    }
+
+    setSessionBootSeen();
+
+    window.__demonz_boot_revealed = true;
+    window.__demonz_boot_complete = true;
+    window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
+    window.dispatchEvent(new CustomEvent("demonz:boot-reveal"));
+    window.dispatchEvent(new CustomEvent("demonz:boot-complete"));
+
+    // Reliably unlock scrolling on both html and body
+    if (typeof document !== "undefined") {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    }
+
+    lenisRef.current?.start();
+    setComplete(true);
+
+    if (containerRef.current) {
+      containerRef.current.style.display = "none";
+    }
+  }, []);
 
   // Fast-forward / smooth skip capability
   const handleFastForward = useCallback(() => {
-    if (isFastForwardingRef.current || !masterTlRef.current) return;
+    if (isFastForwardingRef.current || isCompleteRef.current) return;
     isFastForwardingRef.current = true;
 
     // Immediately trigger background WebGL / video warmup
     window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
 
-    // Smoothly speed up timeline so user experiences an accelerated transition without sudden jumps
-    gsap.to(masterTlRef.current, {
-      timeScale: 4.5,
-      ease: "power2.in",
-      duration: 0.4,
-    });
-  }, []);
+    if (masterTlRef.current && masterTlRef.current.isActive()) {
+      // Smoothly speed up timeline so user experiences an accelerated transition without sudden jumps
+      gsap.to(masterTlRef.current, {
+        timeScale: 4.5,
+        ease: "power2.in",
+        duration: 0.4,
+      });
+    } else {
+      dismissPreloader();
+    }
+  }, [dismissPreloader]);
 
   useEffect(() => {
-    // Lock scrolling while preloader is active
+    // 1. Reliable Viewport Scroll Lock on Android and desktop
     if (typeof document !== "undefined") {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     }
-    if (lenis) {
-      lenis.stop();
+    if (lenisRef.current) {
+      lenisRef.current.stop();
     }
 
-    // Keydown listener for space / escape to fast-forward
+    // 2. Keydown listener for space / escape to fast-forward
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space" || e.code === "Escape") {
         e.preventDefault();
@@ -76,429 +143,445 @@ export function Preloader() {
     };
     window.addEventListener("keydown", handleKeyDown);
 
-    // Fail-safe timeout: ensure preloader is dismissed within 15s even if an edge case occurs
-    const safetyTimer = setTimeout(() => {
-      window.__demonz_boot_revealed = true;
-      window.__demonz_boot_complete = true;
-      window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
-      window.dispatchEvent(new CustomEvent("demonz:boot-reveal"));
-      window.dispatchEvent(new CustomEvent("demonz:boot-complete"));
-      if (typeof document !== "undefined") {
-        document.body.style.overflow = "";
-      }
-      if (lenis) {
-        lenis.start();
-      }
-      setComplete(true);
-      if (containerRef.current) {
-        containerRef.current.style.display = "none";
-      }
-    }, 15500);
+    // 3. Independent Emergency Failsafe: 3.5s timeout guarantees preloader dismissal
+    // Normal animation duration is ~1.95s (first visit) or ~0.95s (subsequent). 3.5s guarantees dismissal.
+    safetyTimerRef.current = setTimeout(() => {
+      dismissPreloader();
+    }, 3500);
 
-    const mm = gsap.matchMedia();
+    // 4. Scoped GSAP Context ensuring clean teardown on unmount
+    const ctx = gsap.context(() => {
+      // Standard boolean check for reduced motion
+      const prefersReduced =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // 1. REDUCED MOTION PREFERENCE
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      const redTl = gsap.timeline({
-        onComplete: () => {
-          window.__demonz_boot_revealed = true;
-          window.__demonz_boot_complete = true;
-          window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
-          window.dispatchEvent(new CustomEvent("demonz:boot-reveal"));
-          window.dispatchEvent(new CustomEvent("demonz:boot-complete"));
-          if (typeof document !== "undefined") {
-            document.body.style.overflow = "";
-          }
-          if (lenis) {
-            lenis.start();
-          }
-          setComplete(true);
-          if (containerRef.current) {
-            containerRef.current.style.display = "none";
-          }
-        },
-      });
-
-      redTl.fromTo(
-        containerRef.current,
-        { opacity: 1 },
-        { opacity: 1, duration: 0.5 }
-      )
-      .call(() => {
-        window.__demonz_boot_revealed = true;
-        window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
-        window.dispatchEvent(new CustomEvent("demonz:boot-reveal"));
-      })
-      .to(containerRef.current, {
-        opacity: 0,
-        duration: 0.4,
-        ease: "power1.inOut",
-      });
-    });
-
-    // 2. FULL CINEMATIC BOOT SEQUENCE (10–14s total duration)
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const tl = gsap.timeline({
-        onComplete: () => {
-          if (typeof window !== "undefined") {
-            try {
-              sessionStorage.setItem("demonz_boot_seen", "1");
-            } catch {}
-          }
-          window.__demonz_boot_complete = true;
-          window.dispatchEvent(new CustomEvent("demonz:boot-complete"));
-          if (typeof document !== "undefined") {
-            document.body.style.overflow = "";
-          }
-          if (lenis) {
-            lenis.start();
-          }
-          setComplete(true);
-          if (containerRef.current) {
-            containerRef.current.style.display = "none";
-          }
-        },
-      });
-      masterTlRef.current = tl;
-
-      // Pacing optimization: maintain complete 6-phase sequence while providing snappy ~1.8s entrance
-      const alreadySeen = typeof window !== "undefined" && Boolean(sessionStorage.getItem("demonz_boot_seen"));
-      tl.timeScale(alreadySeen ? 14.0 : 6.8);
-
-      // Progress tracker object for numerical counter
-      const progressObj = { value: 0 };
-      const updateCounter = (targetVal: number, duration: number, ease = "power1.inOut") => {
-        tl.to(progressObj, {
-          value: targetVal,
-          duration,
-          ease,
-          onUpdate: () => {
-            if (counterRef.current) {
-              counterRef.current.textContent = `${Math.floor(progressObj.value)
-                .toString()
-                .padStart(2, "0")}%`;
-            }
+      if (prefersReduced) {
+        // REDUCED MOTION PREFERENCE (0.9s duration)
+        const redTl = gsap.timeline({
+          onComplete: () => {
+            dismissPreloader();
           },
-        }, "<");
-      };
+        });
+        masterTlRef.current = redTl;
 
-      // -------------------------------------------------------------
-      // PHASE 1: 0.0s – 2.2s (Pure Black, Ambient Awakening)
-      // -------------------------------------------------------------
-      if (contentRef.current) tl.set(contentRef.current, { opacity: 1 });
-      const initialCoreElements = [
-        tagRef.current,
-        logoWrapperRef.current,
-        wordmarkRef.current,
-      ].filter(Boolean);
-      if (initialCoreElements.length) {
-        tl.set(initialCoreElements, { opacity: 0 });
-      }
-      const initialHiddenSelectors = containerRef.current?.querySelectorAll(".preloader-status-container, .preloader-telemetry-cluster");
-      if (initialHiddenSelectors && initialHiddenSelectors.length) {
-        tl.set(initialHiddenSelectors, { opacity: 0 });
-      }
+        redTl
+          .fromTo(
+            containerRef.current,
+            { opacity: 1 },
+            { opacity: 1, duration: 0.5 }
+          )
+          .call(() => {
+            window.__demonz_boot_revealed = true;
+            window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
+            window.dispatchEvent(new CustomEvent("demonz:boot-reveal"));
+          })
+          .to(containerRef.current, {
+            opacity: 0,
+            duration: 0.4,
+            ease: "power1.inOut",
+          });
+      } else {
+        // FULL CINEMATIC BOOT SEQUENCE (Guaranteed to execute on all normal motion devices)
+        const tl = gsap.timeline({
+          onComplete: () => {
+            dismissPreloader();
+          },
+        });
+        masterTlRef.current = tl;
 
-      // Faint telemetry fades in softly
-      const metaElements = containerRef.current?.querySelectorAll(".preloader-meta");
-      if (metaElements && metaElements.length) {
-        tl.to(metaElements, {
-          opacity: 0.5,
-          duration: 1.2,
-          ease: "power2.out",
-        }, 0.2);
-      }
+        // Pacing optimization: maintain complete 6-phase sequence while providing snappy ~1.8s entrance
+        const alreadySeen = getSessionBootSeen();
+        tl.timeScale(alreadySeen ? 14.0 : 6.8);
 
-      // Micro tag "DEMONZ — INITIALIZING" appears with subtle tracking stretch
-      if (tagRef.current) {
-        tl.fromTo(
+        // Progress tracker object for numerical counter
+        const progressObj = { value: 0 };
+        const updateCounter = (targetVal: number, duration: number, position: number, ease = "power1.inOut") => {
+          tl.to(
+            progressObj,
+            {
+              value: targetVal,
+              duration,
+              ease,
+              onUpdate: () => {
+                if (counterRef.current) {
+                  counterRef.current.textContent = `${Math.floor(progressObj.value)
+                    .toString()
+                    .padStart(2, "0")}%`;
+                }
+              },
+            },
+            position
+          );
+        };
+
+        // -------------------------------------------------------------
+        // PHASE 1: 0.0s – 2.2s (Pure Black, Ambient Awakening)
+        // -------------------------------------------------------------
+        if (contentRef.current) tl.set(contentRef.current, { opacity: 1 });
+        const initialCoreElements = [
           tagRef.current,
-          { opacity: 0, letterSpacing: "0.2em", y: 10 },
-          { opacity: 1, letterSpacing: "0.35em", y: 0, duration: 1.2, ease: "power2.out" },
-          0.4
-        );
-      }
-
-      // Logo mark emerges subtly from darkness
-      if (logoWrapperRef.current) {
-        tl.fromTo(
           logoWrapperRef.current,
-          { opacity: 0, scale: 0.9 },
-          { opacity: 1, scale: 1.0, duration: 1.4, ease: "power2.out" },
-          0.8
-        );
-      }
-
-      // Status container fades in
-      const statusContainerEl = containerRef.current?.querySelector(".preloader-status-container");
-      if (statusContainerEl) {
-        tl.fromTo(
-          statusContainerEl,
-          { opacity: 0, y: 6 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-          1.2
-        );
-      }
-
-      // Telemetry cluster fades in
-      const telemetryClusterEl = containerRef.current?.querySelector(".preloader-telemetry-cluster");
-      if (telemetryClusterEl) {
-        tl.fromTo(
-          telemetryClusterEl,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" },
-          1.4
-        );
-      }
-
-      // Counter moves 0 -> 15% and quadrant 1 highlights
-      updateCounter(15, 2.0);
-      tl.to(quadRefs.current[0], {
-        borderColor: "rgba(112, 0, 255, 0.8)",
-        backgroundColor: "rgba(112, 0, 255, 0.15)",
-        color: "#ffffff",
-        duration: 0.4,
-      }, 1.6);
-
-      // -------------------------------------------------------------
-      // PHASE 2: 2.2s – 5.2s (Controlled Mark Awakening & System Initialization)
-      // -------------------------------------------------------------
-      tl.call(() => {
-        if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[1].text;
-        if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[1].sub;
-      }, undefined, 2.3);
-
-      // Wordmark DEMONZDEV emerges with crisp typographical focus
-      tl.fromTo(
-        wordmarkRef.current,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" },
-        2.4
-      );
-
-      // Technical reticle ring begins subtle rotational animation
-      if (reticleRef.current) {
-        tl.to(reticleRef.current, {
-          rotation: 90,
-          duration: 3.0,
-          ease: "power1.inOut",
-        }, 2.4);
-      }
-
-      // Counter moves 15% -> 45%
-      updateCounter(45, 2.8);
-
-      // Quadrant 2 highlights
-      tl.to(quadRefs.current[1], {
-        borderColor: "rgba(112, 0, 255, 0.8)",
-        backgroundColor: "rgba(112, 0, 255, 0.15)",
-        color: "#ffffff",
-        duration: 0.4,
-      }, 3.8);
-
-      // Fade in subtle skip button
-      tl.to(skipBtnRef.current, {
-        opacity: 0.65,
-        duration: 0.8,
-        ease: "power2.out",
-      }, 3.0);
-
-      // -------------------------------------------------------------
-      // PHASE 3: 5.2s – 8.2s (Visual Momentum, Scan & Shader Compilation)
-      // -------------------------------------------------------------
-      tl.call(() => {
-        if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[2].text;
-        if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[2].sub;
-      }, undefined, 5.2);
-
-      // Controlled scan line sweeps across the logo mark
-      if (scanLineRef.current) {
-        tl.fromTo(
-          scanLineRef.current,
-          { top: "-10%", opacity: 0 },
-          { top: "110%", opacity: 0.8, duration: 1.6, ease: "power2.inOut" },
-          5.4
-        );
-      }
-
-      // Logo corona pulse and gentle scale breathing
-      // Logo gentle scale breathing without heavy boxShadow animation
-      tl.to(logoWrapperRef.current, {
-        boxShadow: "0 0 60px rgba(112, 0, 255, 0.45)",
-        scale: 1.04,
-        duration: 1.5,
-        yoyo: true,
-        repeat: 1,
-        ease: "sine.inOut",
-      }, 5.5);
-
-      // Reticle continues rotation to 240 deg
-      if (reticleRef.current) {
-        tl.to(reticleRef.current, {
-          rotation: 240,
-          duration: 3.0,
-          ease: "power2.inOut",
-        }, 5.4);
-      }
-
-      // Counter moves 45% -> 72%
-      updateCounter(72, 2.8);
-
-      // Quadrant 3 highlights
-      tl.to(quadRefs.current[2], {
-        borderColor: "rgba(112, 0, 255, 0.8)",
-        backgroundColor: "rgba(112, 0, 255, 0.15)",
-        color: "#ffffff",
-        duration: 0.4,
-      }, 6.8);
-
-      // -------------------------------------------------------------
-      // PHASE 4: 8.2s – 11.0s (Interface Assembly & Verification)
-      // -------------------------------------------------------------
-      tl.call(() => {
-        if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[3].text;
-        if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[3].sub;
-      }, undefined, 8.2);
-
-      // Intermediate sub-step at 9.5s
-      tl.call(() => {
-        if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[4].text;
-        if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[4].sub;
-      }, undefined, 9.5);
-
-      // Counter climbs 72% -> 100%
-      updateCounter(100, 2.6, "power2.out");
-
-      // Reticle locks to 360 deg
-      if (reticleRef.current) {
-        tl.to(reticleRef.current, {
-          rotation: 360,
-          duration: 2.6,
-          ease: "power2.out",
-        }, 8.2);
-      }
-
-      // Quadrant 4 highlights
-      tl.to(quadRefs.current[3], {
-        borderColor: "rgba(112, 0, 255, 0.9)",
-        backgroundColor: "rgba(112, 0, 255, 0.25)",
-        color: "#ffffff",
-        duration: 0.4,
-      }, 10.4);
-
-      // -------------------------------------------------------------
-      // PHASE 5: 11.0s – 12.4s (Visuals Settle & System Ready)
-      // -------------------------------------------------------------
-      tl.call(() => {
-        window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
-        if (phaseTextRef.current) {
-          phaseTextRef.current.textContent = PHASES[5].text;
-          phaseTextRef.current.classList.add("text-brand-purple-light");
+          wordmarkRef.current,
+        ].filter(Boolean);
+        if (initialCoreElements.length) {
+          tl.set(initialCoreElements, { opacity: 0 });
         }
-        if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[5].sub;
-      }, undefined, 11.0);
+        const initialHiddenSelectors = containerRef.current?.querySelectorAll(
+          ".preloader-status-container, .preloader-telemetry-cluster"
+        );
+        if (initialHiddenSelectors && initialHiddenSelectors.length) {
+          tl.set(initialHiddenSelectors, { opacity: 0 });
+        }
 
-      // Subtle locked status pulse on wordmark
-      tl.to(wordmarkRef.current, {
-        scale: 1.02,
-        duration: 0.4,
-        yoyo: true,
-        repeat: 1,
-        ease: "power2.inOut",
-      }, 11.0);
+        // Faint telemetry fades in softly
+        const metaElements = containerRef.current?.querySelectorAll(".preloader-meta");
+        if (metaElements && metaElements.length) {
+          tl.to(
+            metaElements,
+            {
+              opacity: 0.5,
+              duration: 1.2,
+              ease: "power2.out",
+            },
+            0.2
+          );
+        }
 
-      // Brief cinematic hold to absorb ready state
-      tl.to({}, { duration: 1.0 });
+        // Micro tag "DEMONZ — INITIALIZING" appears with subtle tracking stretch
+        if (tagRef.current) {
+          tl.fromTo(
+            tagRef.current,
+            { opacity: 0, letterSpacing: "0.2em", y: 10 },
+            { opacity: 1, letterSpacing: "0.35em", y: 0, duration: 1.2, ease: "power2.out" },
+            0.4
+          );
+        }
 
-      // -------------------------------------------------------------
-      // PHASE 6: 12.0s – 13.3s (Seamless Dissolution INTO Hero)
-      // -------------------------------------------------------------
-      // 1. Peripheral telemetry, meta bars, and counter dissolve out first
-      const dissolveTargets = [
-        ...(metaElements ? Array.from(metaElements) : []),
-        telemetryClusterEl,
-        statusContainerEl,
-        tagRef.current,
-        skipBtnRef.current,
-      ].filter(Boolean);
+        // Logo mark emerges subtly from darkness
+        if (logoWrapperRef.current) {
+          tl.fromTo(
+            logoWrapperRef.current,
+            { opacity: 0, scale: 0.9 },
+            { opacity: 1, scale: 1.0, duration: 1.4, ease: "power2.out" },
+            0.8
+          );
+        }
 
-      if (dissolveTargets.length) {
+        // Status container fades in
+        const statusContainerEl = containerRef.current?.querySelector(".preloader-status-container");
+        if (statusContainerEl) {
+          tl.fromTo(
+            statusContainerEl,
+            { opacity: 0, y: 6 },
+            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+            1.2
+          );
+        }
+
+        // Telemetry cluster fades in
+        const telemetryClusterEl = containerRef.current?.querySelector(".preloader-telemetry-cluster");
+        if (telemetryClusterEl) {
+          tl.fromTo(
+            telemetryClusterEl,
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" },
+            1.4
+          );
+        }
+
+        // Counter moves 0 -> 15% smoothly (1.4s to 2.4s) and quadrant 1 highlights
+        updateCounter(15, 1.0, 1.4);
         tl.to(
-          dissolveTargets,
+          quadRefs.current[0],
           {
-            opacity: 0,
-            y: 4,
-            duration: 0.45,
+            borderColor: "rgba(112, 0, 255, 0.8)",
+            backgroundColor: "rgba(112, 0, 255, 0.15)",
+            color: "#ffffff",
+            duration: 0.4,
+          },
+          1.6
+        );
+
+        // -------------------------------------------------------------
+        // PHASE 2: 2.2s – 5.2s (Controlled Mark Awakening & System Initialization)
+        // -------------------------------------------------------------
+        tl.call(() => {
+          if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[1].text;
+          if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[1].sub;
+        }, undefined, 2.3);
+
+        // Wordmark DEMONZDEV emerges with crisp typographical focus
+        tl.fromTo(
+          wordmarkRef.current,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" },
+          2.4
+        );
+
+        // Technical reticle ring begins subtle rotational animation
+        if (reticleRef.current) {
+          tl.to(
+            reticleRef.current,
+            {
+              rotation: 90,
+              duration: 3.0,
+              ease: "power1.inOut",
+            },
+            2.4
+          );
+        }
+
+        // Counter moves 15% -> 45% smoothly (2.4s to 5.4s)
+        updateCounter(45, 3.0, 2.4);
+
+        // Quadrant 2 highlights
+        tl.to(
+          quadRefs.current[1],
+          {
+            borderColor: "rgba(112, 0, 255, 0.8)",
+            backgroundColor: "rgba(112, 0, 255, 0.15)",
+            color: "#ffffff",
+            duration: 0.4,
+          },
+          3.8
+        );
+
+        // Fade in subtle skip button
+        tl.to(
+          skipBtnRef.current,
+          {
+            opacity: 0.65,
+            duration: 0.8,
             ease: "power2.out",
-            stagger: 0.02,
           },
-          12.0
+          3.0
         );
-      }
 
-      // 2. Dispatch boot-reveal at 12.35s so Hero begins its entrance concurrently
-      // while preloader backdrop dissolves into the Hero canvas and video
-      tl.call(() => {
-        window.__demonz_boot_revealed = true;
-        window.dispatchEvent(new CustomEvent("demonz:boot-reveal"));
-        if (containerRef.current) {
-          containerRef.current.style.pointerEvents = "none";
+        // -------------------------------------------------------------
+        // PHASE 3: 5.2s – 8.2s (Visual Momentum, Scan & Shader Compilation)
+        // -------------------------------------------------------------
+        tl.call(() => {
+          if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[2].text;
+          if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[2].sub;
+        }, undefined, 5.2);
+
+        // Controlled scan line sweeps across the logo mark
+        if (scanLineRef.current) {
+          tl.fromTo(
+            scanLineRef.current,
+            { top: "-10%", opacity: 0 },
+            { top: "110%", opacity: 0.8, duration: 1.6, ease: "power2.inOut" },
+            5.4
+          );
         }
-      }, undefined, 12.35);
 
-      // 3. Central emblem & reticle subtly scale down and dissolve into the Hero's WebGL logo center
-      const emblemTargets = [logoWrapperRef.current, reticleRef.current].filter(Boolean);
-      if (emblemTargets.length) {
+        // Logo corona pulse and gentle scale breathing
         tl.to(
-          emblemTargets,
+          logoWrapperRef.current,
           {
-            scale: 0.92,
-            opacity: 0,
-            duration: 0.85,
-            ease: "power2.inOut",
+            boxShadow: "0 0 60px rgba(112, 0, 255, 0.45)",
+            scale: 1.04,
+            duration: 1.5,
+            yoyo: true,
+            repeat: 1,
+            ease: "sine.inOut",
           },
-          12.35
+          5.5
         );
-      }
 
-      // 4. Preloader wordmark fades out smoothly as Hero headline emerges
-      if (wordmarkRef.current) {
+        // Reticle continues rotation to 240 deg
+        if (reticleRef.current) {
+          tl.to(
+            reticleRef.current,
+            {
+              rotation: 240,
+              duration: 3.0,
+              ease: "power2.inOut",
+            },
+            5.4
+          );
+        }
+
+        // Counter moves 45% -> 72% smoothly (5.4s to 9.5s)
+        updateCounter(72, 4.1, 5.4);
+
+        // Quadrant 3 highlights
+        tl.to(
+          quadRefs.current[2],
+          {
+            borderColor: "rgba(112, 0, 255, 0.8)",
+            backgroundColor: "rgba(112, 0, 255, 0.15)",
+            color: "#ffffff",
+            duration: 0.4,
+          },
+          6.8
+        );
+
+        // -------------------------------------------------------------
+        // PHASE 4: 8.2s – 11.0s (Interface Assembly & Verification)
+        // -------------------------------------------------------------
+        tl.call(() => {
+          if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[3].text;
+          if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[3].sub;
+        }, undefined, 8.2);
+
+        // Intermediate sub-step at 9.5s
+        tl.call(() => {
+          if (phaseTextRef.current) phaseTextRef.current.textContent = PHASES[4].text;
+          if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[4].sub;
+        }, undefined, 9.5);
+
+        // Reticle locks to 360 deg
+        if (reticleRef.current) {
+          tl.to(
+            reticleRef.current,
+            {
+              rotation: 360,
+              duration: 2.6,
+              ease: "power2.out",
+            },
+            8.2
+          );
+        }
+
+        // Counter climbs 72% -> 100% smoothly (9.5s to 12.1s)
+        updateCounter(100, 2.6, 9.5, "power2.out");
+
+        // Quadrant 4 highlights
+        tl.to(
+          quadRefs.current[3],
+          {
+            borderColor: "rgba(112, 0, 255, 0.9)",
+            backgroundColor: "rgba(112, 0, 255, 0.25)",
+            color: "#ffffff",
+            duration: 0.4,
+          },
+          10.4
+        );
+
+        // -------------------------------------------------------------
+        // PHASE 5: 11.0s – 12.4s (Visuals Settle & System Ready)
+        // -------------------------------------------------------------
+        tl.call(() => {
+          window.dispatchEvent(new CustomEvent("demonz:boot-warmup"));
+          if (phaseTextRef.current) {
+            phaseTextRef.current.textContent = PHASES[5].text;
+            phaseTextRef.current.classList.add("text-brand-purple-light");
+          }
+          if (phaseSubRef.current) phaseSubRef.current.textContent = PHASES[5].sub;
+        }, undefined, 11.0);
+
+        // Subtle locked status pulse on wordmark
         tl.to(
           wordmarkRef.current,
           {
-            opacity: 0,
-            y: -6,
-            filter: "blur(4px)",
-            duration: 0.6,
-            ease: "power2.out",
-          },
-          12.35
-        );
-      }
-
-      // 5. Preloader dark background overlay dissolves completely into the Hero
-      if (overlayRef.current) {
-        tl.to(
-          overlayRef.current,
-          {
-            opacity: 0,
-            duration: 0.95,
+            scale: 1.02,
+            duration: 0.4,
+            yoyo: true,
+            repeat: 1,
             ease: "power2.inOut",
           },
-          12.35
+          11.0
         );
+
+        // Brief cinematic hold to absorb ready state
+        tl.to({}, { duration: 1.0 });
+
+        // -------------------------------------------------------------
+        // PHASE 6: 12.0s – 13.3s (Seamless Dissolution INTO Hero)
+        // -------------------------------------------------------------
+        // 1. Peripheral telemetry, meta bars, and counter dissolve out first
+        const dissolveTargets = [
+          ...(metaElements ? Array.from(metaElements) : []),
+          telemetryClusterEl,
+          statusContainerEl,
+          tagRef.current,
+          skipBtnRef.current,
+        ].filter(Boolean);
+
+        if (dissolveTargets.length) {
+          tl.to(
+            dissolveTargets,
+            {
+              opacity: 0,
+              y: 4,
+              duration: 0.45,
+              ease: "power2.out",
+              stagger: 0.02,
+            },
+            12.0
+          );
+        }
+
+        // 2. Dispatch boot-reveal at 12.35s so Hero begins its entrance concurrently
+        // while preloader backdrop dissolves into the Hero canvas and video
+        tl.call(() => {
+          window.__demonz_boot_revealed = true;
+          window.dispatchEvent(new CustomEvent("demonz:boot-reveal"));
+          if (containerRef.current) {
+            containerRef.current.style.pointerEvents = "none";
+          }
+        }, undefined, 12.35);
+
+        // 3. Central emblem & reticle subtly scale down and dissolve into the Hero's WebGL logo center
+        const emblemTargets = [logoWrapperRef.current, reticleRef.current].filter(Boolean);
+        if (emblemTargets.length) {
+          tl.to(
+            emblemTargets,
+            {
+              scale: 0.92,
+              opacity: 0,
+              duration: 0.85,
+              ease: "power2.inOut",
+            },
+            12.35
+          );
+        }
+
+        // 4. Preloader wordmark fades out smoothly as Hero headline emerges
+        if (wordmarkRef.current) {
+          tl.to(
+            wordmarkRef.current,
+            {
+              opacity: 0,
+              y: -6,
+              filter: "blur(4px)",
+              duration: 0.6,
+              ease: "power2.out",
+            },
+            12.35
+          );
+        }
+
+        // 5. Preloader dark background overlay dissolves completely into the Hero
+        if (overlayRef.current) {
+          tl.to(
+            overlayRef.current,
+            {
+              opacity: 0,
+              duration: 0.95,
+              ease: "power2.inOut",
+            },
+            12.35
+          );
+        }
       }
-    });
+    }, containerRef);
 
     return () => {
-      clearTimeout(safetyTimer);
+      if (safetyTimerRef.current) {
+        clearTimeout(safetyTimerRef.current);
+        safetyTimerRef.current = null;
+      }
       window.removeEventListener("keydown", handleKeyDown);
-      mm.revert();
+      ctx.revert();
       if (typeof document !== "undefined") {
+        document.documentElement.style.overflow = "";
         document.body.style.overflow = "";
       }
     };
-  }, [lenis, handleFastForward]);
+  }, [dismissPreloader, handleFastForward]);
 
   if (complete) return null;
 

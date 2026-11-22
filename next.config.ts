@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   output: "export",
   basePath,
   trailingSlash: true,
+  allowedDevOrigins: ["192.168.100.149", "localhost", "127.0.0.1"],
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
